@@ -12,55 +12,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_createPost"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/theme"
-                app:title="Create Post"
-                app:titleTextColor="@color/white"
-                />
-        </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/proxima"
-            android:text="Category"
+            android:text="@string/category_select"
             android:textColor="@color/theme"
             android:textSize="25dp" />
-<!--
+
         <Spinner
-            android:id="@+id/postCategoryMenu"
+            android:id="@+id/post_category_menu"
             android:spinnerMode="dropdown"
             android:layout_width="match_parent"
             android:layout_height="40dp" />
-            -->
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/proxima"
-            android:text="Question"
+            android:text="@string/question"
             android:textColor="@color/theme"
             android:textSize="25dp" />
-
-        <EditText
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="295dp"
-            android:background="@drawable/posts"
-            android:id="@+id/postInputText"/>
+            android:background="@drawable/posts">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/post_input_text"/>
+        </ScrollView>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Upload Photo"
-            android:id="@+id/uploadPostPhotoButton"
+            android:text="@string/upload_media"
+            android:id="@+id/upload_post_media_button"
             android:background="@drawable/buttons"
             app:backgroundTint="@color/theme"
 
@@ -75,8 +66,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Post Question"
-        android:id="@+id/uploadPostButton"
+        android:text="@string/post_question"
+        android:id="@+id/upload_post_button"
         android:background="@drawable/buttons"
         app:backgroundTint="@color/theme"
 

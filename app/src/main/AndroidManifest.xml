@@ -21,6 +21,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".FilterActivity"
+            android:label="Filter By:"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <activity
+            android:name=".CreatePostActivity"
+            android:label="@string/create_post_title"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
     </application>
 
 </manifest>

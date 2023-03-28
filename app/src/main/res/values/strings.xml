@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">SUTDy</string>
     <string name="post_content">Post Title and Post content styling for content (aka different size for titles etc) need to be done in the java file apparently? idek theres html involved somewhere please help</string>
+    <string name="category_select">Category</string>
+    <string name="create_post_title">Ask A Question!</string>
+    <string name="question">Question</string>
+    <string name="upload_media">Upload Photo</string>
+    <string name="post_question">Post Question</string>
 </resources>
