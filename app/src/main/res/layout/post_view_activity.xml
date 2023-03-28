@@ -37,7 +37,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/lorem"
+                android:text="jkdlfghsdkjlghsdflkgsfdjfsf"
                 android:id="@+id/postContent"
                 android:textSize="25dp"
                 android:layout_marginTop="15dp"/>
