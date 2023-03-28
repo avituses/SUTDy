@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.norman_lee.myapplication.MainActivity">
+
+    <item
+        android:id="@+id/log_out"
+        android:orderInCategory="100"
+        android:title="Log Out"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/my_posts"
+        android:orderInCategory="200"
+        android:title="My Posts"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/my_answers"
+        android:orderInCategory="300"
+        android:title="My Answers"
+        app:showAsAction="never"/>
+
+</menu>

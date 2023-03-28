@@ -20,7 +20,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="0dp"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
@@ -29,7 +29,7 @@
         <SearchView
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
-            android:id="@+id/SearchBar"
+            android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
@@ -46,7 +46,7 @@
             <Button
                 android:layout_width="150dp"
                 android:layout_height="45dp"
-                android:id="@+id/mostRelevant"
+                android:id="@+id/most_relevant"
                 android:background="@drawable/buttons"
                 app:backgroundTint="@color/theme"
                 android:fontFamily="@font/proxima"
@@ -59,7 +59,7 @@
                 android:layout_width="150dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="15dp"
-                android:id="@+id/mostRecent"
+                android:id="@+id/most_recent"
                 android:background="@drawable/buttons"
                 app:backgroundTint="@color/theme"
                 android:fontFamily="@font/proxima"
@@ -72,7 +72,7 @@
                 android:layout_width="65dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="15dp"
-                android:id="@+id/filterButton"
+                android:id="@+id/filter_button"
                 android:background="@drawable/buttons"
                 android:backgroundTint="@color/theme"
                 android:src="@drawable/filter"/>
@@ -87,7 +87,7 @@
             android:textSize="20dp"
             android:textColor="@color/theme"
             android:layout_marginBottom="15dp"
-            android:id="@+id/noOfPosts"/>
+            android:id="@+id/no_of_posts"/>
 
     </LinearLayout>
 
@@ -101,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:id="@+id/postSpace">
+            android:id="@+id/post_space">
 
             <TextView
                 android:layout_width="match_parent"
