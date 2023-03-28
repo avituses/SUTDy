@@ -22,8 +22,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/theme"
                 app:title="Create Post"
-                app:titleTextColor="@color/white"
-                />
+                app:titleTextColor="@color/white" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
