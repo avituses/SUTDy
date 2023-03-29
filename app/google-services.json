@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "91496665763",
+    "firebase_url": "https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "sutdy-1",
+    "storage_bucket": "sutdy-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91496665763:android:6f34ec1e9c211d44886516",
+        "android_client_info": {
+          "package_name": "com.example.sutdy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91496665763-jlar5crf439dtpj1ifdeeeup7d0stqrl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sutdy",
+            "certificate_hash": "76fa5972a2aa9b80a167b673a5a6159bb5288a07"
+          }
+        },
+        {
+          "client_id": "91496665763-mab8koa43ent0ch2b0j2ep33eki02o0j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5dlXk5P9fyqtZoHEaiUscuzZLV7hb014"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91496665763-mab8koa43ent0ch2b0j2ep33eki02o0j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,6 +10,13 @@ import android.view.View;
 import android.widget.*;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 //TODO: set up firebase
 
@@ -21,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     TextView noOfPosts;
     LinearLayout postSpace;
     FloatingActionButton postButton;
+
+    DatabaseReference mRootDatabaseRef;
 
 
     @SuppressLint("MissingInflatedId")
@@ -37,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         noOfPosts = findViewById(R.id.no_of_posts);
         postSpace = findViewById(R.id.post_space);
         postButton = (FloatingActionButton) findViewById(R.id.post_button);
+
+
 
         //TODO: Take input from searchBar, find matching posts, return as output in postSpace
         //TODO: if input empty, show error message
@@ -81,5 +92,6 @@ public class MainActivity extends AppCompatActivity {
     //TODO: Log Out takes user to Log In page
     //TODO: My Questions takes user to page showing the Questions they posted
     //TODO: My Answers takes user to page showing Comments/Answers they posted
+
 
 }
