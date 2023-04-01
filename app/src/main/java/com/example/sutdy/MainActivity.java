@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
 
         //get intent data from Login.class.activity
         userID = getIntent().getStringExtra("userID");
+        if (userID == null){
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            startActivity(intent);
+        }
 
 
         //Set references to Widgets
