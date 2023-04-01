@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
                 }
 
-                else {
+                else
                     //if user credentials match, bring user to mainactivity with respective account
                     databaseReference.child("users").child(username).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -77,7 +77,7 @@ public class Login extends AppCompatActivity {
                         }
                     });
                 }
-            }
+
         });
 
 
