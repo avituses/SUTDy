@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         postButton = (FloatingActionButton) findViewById(R.id.post_button);
 
 
-
         //TODO: Take input from searchBar, find matching posts, return as output in postSpace
         //TODO: if input empty, show error message
 
@@ -88,10 +88,25 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+
     //TODO: menu items redirects user to account information/log out?
     //TODO: Log Out takes user to Log In page
     //TODO: My Questions takes user to page showing the Questions they posted
     //TODO: My Answers takes user to page showing Comments/Answers they posted
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
+
+        if (id == R.id.log_out) {
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

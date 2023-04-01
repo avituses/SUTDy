@@ -6,4 +6,6 @@
     <string name="question">Question</string>
     <string name="upload_media">Upload Photo</string>
     <string name="post_question">Post Question</string>
+    <string name="set_username">Set Username:</string>
+    <string name="set_password">Set Password:</string>
 </resources>
