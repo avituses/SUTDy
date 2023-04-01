@@ -1,5 +1,6 @@
 package com.example.sutdy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -10,6 +11,11 @@ import android.view.View;
 import android.widget.*;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 //TODO: set up firebase
 
@@ -17,6 +23,9 @@ public class Register extends AppCompatActivity {
     EditText newUsername;
     EditText newPassword;
     Button registerNew;
+    Boolean userTaken = false;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+                    .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -25,19 +34,35 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.register_page);
 
         //Set references to Widgets
-        newUsername = findViewById(R.id.new_username);
-        newPassword = findViewById(R.id.new_password);
+        newUsername = (EditText) findViewById(R.id.new_username);
+        newPassword = (EditText) findViewById(R.id.new_password);
         registerNew = findViewById(R.id.register_new);
 
-        String regUser = newUsername.getText().toString();
-        String regPassword = newPassword.getText().toString();
+
 
         registerNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: create new user in firebase
-                Intent register = new Intent(Register.this, Login.class);
-                startActivity(register);
+                String regUser = newUsername.getText().toString();
+                String regPassword = newPassword.getText().toString();
+
+                //TODO: check if username is taken, set userTaken to true if it is
+
+                //create new user in firebase
+                if (regUser.isEmpty() || regPassword.isEmpty()){
+                    Toast.makeText(Register.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
+                }
+                else if (userTaken) {
+                    Toast.makeText(Register.this, "Username is taken. Try another one!", Toast.LENGTH_SHORT).show();
+                    userTaken = false;
+                }
+                else{
+                    databaseReference.child("users").child(regUser).child("password").setValue(regPassword);
+                    Toast.makeText(Register.this, "Registered!", Toast.LENGTH_SHORT).show();
+                    Intent register = new Intent(Register.this, Login.class);
+                    startActivity(register);
+                }
+                userTaken = false;
             }
         });
 
