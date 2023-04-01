@@ -1,6 +1,7 @@
 package com.example.sutdy;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.*;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,10 +22,10 @@ import com.google.firebase.database.ValueEventListener;
 //TODO: set up firebase
 
 public class Register extends AppCompatActivity {
+
     EditText newUsername;
     EditText newPassword;
     Button registerNew;
-    Boolean userTaken = false;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                     .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
@@ -39,30 +41,39 @@ public class Register extends AppCompatActivity {
         registerNew = findViewById(R.id.register_new);
 
 
-
         registerNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String regUser = newUsername.getText().toString();
                 String regPassword = newPassword.getText().toString();
+                Boolean userTaken = false;
 
-                //TODO: check if username is taken, set userTaken to true if it is
 
-                //create new user in firebase
-                if (regUser.isEmpty() || regPassword.isEmpty()){
-                    Toast.makeText(Register.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
-                }
-                else if (userTaken) {
-                    Toast.makeText(Register.this, "Username is taken. Try another one!", Toast.LENGTH_SHORT).show();
-                    userTaken = false;
-                }
-                else{
-                    databaseReference.child("users").child(regUser).child("password").setValue(regPassword);
-                    Toast.makeText(Register.this, "Registered!", Toast.LENGTH_SHORT).show();
-                    Intent register = new Intent(Register.this, Login.class);
-                    startActivity(register);
-                }
-                userTaken = false;
+                databaseReference.child("users").child(regUser).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //check if username is taken, prompt user to change
+                        if (snapshot.exists()) {
+                            Toast.makeText(Register.this, "Username is taken. Try another one!", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            //create new user in firebase
+                            if (regUser.isEmpty() || regPassword.isEmpty()){
+                                Toast.makeText(Register.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                databaseReference.child("users").child(regUser).child("password").setValue(regPassword);
+                                Toast.makeText(Register.this, "Registered!", Toast.LENGTH_SHORT).show();
+                                Intent register = new Intent(Register.this, Login.class);
+                                startActivity(register);
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
         });
 

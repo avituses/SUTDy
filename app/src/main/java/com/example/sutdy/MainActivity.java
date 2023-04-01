@@ -22,10 +22,7 @@ import com.google.firebase.storage.StorageReference;
 //TODO: set up firebase
 
 public class MainActivity extends AppCompatActivity {
-
-    private String mobile;
-    private String email;
-    private String name;
+    private String userID;
     SearchView searchBar;
     Button mostRelevant;
     Button mostRecent;
@@ -43,10 +40,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //get intent data from Register.class.activity
-        mobile = getIntent().getStringExtra("mobile");
-        email = getIntent().getStringExtra("email");
-        name = getIntent().getStringExtra("name");
+        //get intent data from Login.class.activity
+        userID = getIntent().getStringExtra("userID");
 
 
         //Set references to Widgets

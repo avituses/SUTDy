@@ -8,4 +8,5 @@
     <string name="post_question">Post Question</string>
     <string name="set_username">Set Username:</string>
     <string name="set_password">Set Password:</string>
+    <string name="error_message">Error. Please Try Again</string>
 </resources>
