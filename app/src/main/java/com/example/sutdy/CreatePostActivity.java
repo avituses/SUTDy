@@ -38,6 +38,8 @@ import android.widget.TextView;
 //TODO: set up firebase
 
 public class CreatePostActivity extends AppCompatActivity {
+
+    private String userID;
     Spinner postCategoryMenu;
     EditText postInputText;
     Button uploadPostMediaButton;
@@ -51,6 +53,14 @@ public class CreatePostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_post_activity);
+
+
+        // get userID to save it in the db
+        userID = getIntent().getStringExtra("userID");
+        if (userID == null){
+            Intent intent = new Intent(CreatePostActivity.this, Login.class);
+            startActivity(intent);
+        }
 
         //Set references to Widgets
         postCategoryMenu = findViewById(R.id.post_category_menu);
@@ -81,7 +91,7 @@ public class CreatePostActivity extends AppCompatActivity {
                         }
                         // add a else if for category as well
                         else {
-                            databaseReference.child("Questions").setValue(Question);
+                            databaseReference.child("Questions").child(userID).setValue(Question);
                             Toast.makeText(CreatePostActivity.this, "Question Posted!", Toast.LENGTH_SHORT).show();
                             Intent CreatePost = new Intent(CreatePostActivity.this, MainActivity.class);
                             startActivity(CreatePost);
