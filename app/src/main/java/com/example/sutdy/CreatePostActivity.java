@@ -81,7 +81,7 @@ public class CreatePostActivity extends AppCompatActivity {
                         }
                         // add a else if for category as well
                         else {
-                            databaseReference.child("Questions").setValue(Question);
+                            databaseReference.child("Questions").child(Question);
                             Toast.makeText(CreatePostActivity.this, "Question Posted!", Toast.LENGTH_SHORT).show();
                             Intent CreatePost = new Intent(CreatePostActivity.this, MainActivity.class);
                             startActivity(CreatePost);
@@ -90,7 +90,6 @@ public class CreatePostActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(CreatePostActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
