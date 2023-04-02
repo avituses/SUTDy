@@ -11,6 +11,9 @@ import android.widget.*;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Arrays;
+import java.util.List;
+
 //TODO: set up firebase
 
 public class FilterActivity extends AppCompatActivity {
@@ -25,6 +28,16 @@ public class FilterActivity extends AppCompatActivity {
 
         //Set references to Widgets
         filterCategoryMenu = findViewById(R.id.filter_category_menu);
+        List<String> mList = Arrays.asList("Computation Structures", "Infosys", "Technological world", "Algorithms", "Data Driven World");
+
+        // Create an adapter as shown below
+        ArrayAdapter<String> mArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_list, mList);
+        mArrayAdapter.setDropDownViewResource(R.layout.spinner_list);
+
+        // Set the adapter to the Spinner
+        filterCategoryMenu.setAdapter(mArrayAdapter);
+
+
         applyFilterButton = findViewById(R.id.apply_filter_button);
 
         //TODO: add categories to category menu
