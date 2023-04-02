@@ -44,6 +44,7 @@ import java.util.List;
 
 public class CreatePostActivity extends AppCompatActivity {
 
+    private UniqueRNG idGenerator;
     private String userID;
     Spinner postCategoryMenu;
     EditText postInputText;
@@ -59,21 +60,18 @@ public class CreatePostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_post_activity);
 
+        idGenerator = new UniqueRNG();
 
-        // get userID to save it in the db
         userID = getIntent().getStringExtra("userID");
-        if (userID == null){
-            Intent intent = new Intent(CreatePostActivity.this, Login.class);
-            startActivity(intent);
-        }
+
 
         //Set references to Widgets
         postCategoryMenu = findViewById(R.id.post_category_menu);
         // Create a list to display in the Spinner
-        List<String> mList = Arrays.asList("Computation Structures", "Infosys", "Technological world", "Algorithms", "Data Driven World");
+        List<String> mList = Arrays.asList("Computation Structures", "Info Systems", "Technological World", "Algorithms", "Data Driven World");
 
         // Create an adapter as shown below
-        ArrayAdapter<String> mArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_list, mList);
+        ArrayAdapter<String> mArrayAdapter = new ArrayAdapter<String>(CreatePostActivity.this, R.layout.spinner_list, mList);
         mArrayAdapter.setDropDownViewResource(R.layout.spinner_list);
 
         // Set the adapter to the Spinner
@@ -90,25 +88,39 @@ public class CreatePostActivity extends AppCompatActivity {
 
         //TODO: set onclicklistener for uploadPostButton
 
+        // uploadPostMediaButton.setOnClickListener(new View.OnClickListener() {
+            // @Override
+            // public void onClick(View view) {
+            //
+            //}
+        // })
+
 
 
         uploadPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String Question = postInputText.getText().toString();
+                String Category = postCategoryMenu.getSelectedItem().toString();
+                int postID = idGenerator.getNextNumber();
 
-                databaseReference.child("Questions").child(Question).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                databaseReference.child("Questions").child(userID).child(Category).child(String.valueOf(postID)).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        int postID = idGenerator.getNextNumber();
                         //check if anything is not filled in
                         if (Question.isEmpty()) {
                             Toast.makeText(CreatePostActivity.this, "Please fill in a question.", Toast.LENGTH_SHORT).show();
-                        }
-                        // add a else if for category as well
-                        else {
-                            databaseReference.child("Questions").child(userID).setValue(Question);
+                        } else {
+                            // check if postID already exists to prevent overwriting
+                            if (snapshot.exists()) {
+                                postID = idGenerator.getNextNumber();
+                            }
+                            databaseReference.child("Questions").child(userID).child(Category).child(String.valueOf(postID)).setValue(Question);
                             Toast.makeText(CreatePostActivity.this, "Question Posted!", Toast.LENGTH_SHORT).show();
                             Intent CreatePost = new Intent(CreatePostActivity.this, MainActivity.class);
+                            CreatePost.putExtra("userID", userID);
                             startActivity(CreatePost);
                         }
                     }
