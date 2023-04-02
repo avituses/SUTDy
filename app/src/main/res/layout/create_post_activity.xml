@@ -46,10 +46,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/post_input_text"
-                android:text="Enter your question here"
-                android:textColor="#808080"
-                android:textSize="13dp"/>
+                android:id="@+id/post_input_text"/>
         </ScrollView>
         <Button
             android:layout_width="match_parent"
