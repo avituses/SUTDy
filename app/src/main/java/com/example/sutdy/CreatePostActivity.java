@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.*;
+import android.widget.ArrayAdapter;
+import java.util.Arrays;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.activity.result.ActivityResult;
@@ -28,6 +30,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.List;
+
 //TODO: set up firebase
 
 public class CreatePostActivity extends AppCompatActivity {
@@ -44,6 +49,16 @@ public class CreatePostActivity extends AppCompatActivity {
 
         //Set references to Widgets
         postCategoryMenu = findViewById(R.id.post_category_menu);
+        // Create a list to display in the Spinner
+        List<String> mList = Arrays.asList("Computation Structures", "Infosys", "Technological world", "Algorithms", "Data Driven World");
+
+        // Create an adapter as shown below
+        ArrayAdapter<String> mArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_list, mList);
+        mArrayAdapter.setDropDownViewResource(R.layout.spinner_list);
+
+        // Set the adapter to the Spinner
+        postCategoryMenu.setAdapter(mArrayAdapter);
+
         postInputText = findViewById(R.id.post_input_text);
         uploadPostMediaButton = findViewById(R.id.upload_post_media_button);
         uploadPostButton = findViewById(R.id.upload_post_button);
