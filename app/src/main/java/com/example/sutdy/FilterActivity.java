@@ -28,6 +28,7 @@ public class FilterActivity extends AppCompatActivity {
 
         //Set references to Widgets
         filterCategoryMenu = findViewById(R.id.filter_category_menu);
+        String userID = getIntent().getStringExtra("userID");
         List<String> mList = Arrays.asList("Computation Structures", "Info Systems", "Technological World", "Algorithms", "Data Driven World");
 
         // Create an adapter as shown below
@@ -47,6 +48,7 @@ public class FilterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(FilterActivity.this, MainActivity.class);
                 intent.putExtra("filterCategory", filterCategoryMenu.getSelectedItem().toString());
+                intent.putExtra("userID", userID);
                 startActivity(intent);
             }
         });

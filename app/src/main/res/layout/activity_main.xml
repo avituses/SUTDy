@@ -36,53 +36,21 @@
             android:queryHint="Your question here..."/>
 
         <!-- Select Search output Buttons -->
-        <TableRow
+
+        <ImageButton
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="10dp"
-            android:paddingBottom="15dp">
+            android:layout_height="45dp"
+            android:id="@+id/filter_button"
+            android:background="@drawable/buttons"
+            android:backgroundTint="@color/theme"
+            android:src="@drawable/filter"/>
 
-            <Button
-                android:layout_width="145dp"
-                android:layout_height="45dp"
-                android:id="@+id/most_relevant"
-                android:background="@drawable/buttons"
-                app:backgroundTint="@color/theme"
-                android:fontFamily="@font/proxima"
-                android:text="Most Relevant"
-                android:textAllCaps="false"
-                android:textSize="15dp"
-                android:textColor="@color/white"/>
-
-            <Button
-                android:layout_width="145dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/most_recent"
-                android:background="@drawable/buttons"
-                app:backgroundTint="@color/theme"
-                android:fontFamily="@font/proxima"
-                android:text="Most Recent"
-                android:textAllCaps="false"
-                android:textSize="15dp"
-                android:textColor="@color/white" />
-
-            <ImageButton
-                android:layout_width="65dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="10dp"
-                android:id="@+id/filter_button"
-                android:background="@drawable/buttons"
-                android:backgroundTint="@color/theme"
-                android:src="@drawable/filter"/>
-
-        </TableRow>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima"
+            android:layout_marginTop="15dp"
             android:text="No Related Posts"
             android:textSize="25dp"
             android:textColor="@color/theme"

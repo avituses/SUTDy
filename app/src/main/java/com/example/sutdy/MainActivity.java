@@ -2,6 +2,8 @@ package com.example.sutdy;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -22,20 +24,22 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //TODO: set up firebase
 
 public class MainActivity extends AppCompatActivity {
     private String userID;
     private String filterCategory;
     SearchView searchBar;
-    Button mostRelevant;
-    Button mostRecent;
     ImageButton filterButton;
     TextView noOfPosts;
     RecyclerView postSpace;
     FloatingActionButton postButton;
 
-    DatabaseReference mRootDatabaseRef;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+            .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");;
 
 
     @SuppressLint("MissingInflatedId")
@@ -55,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Set references to Widgets
         searchBar = findViewById(R.id.search_bar);
-        mostRelevant = findViewById(R.id.most_relevant);
-        mostRecent = findViewById(R.id.most_recent);
         filterButton = findViewById(R.id.filter_button);
         noOfPosts = findViewById(R.id.no_of_posts);
         postSpace = findViewById(R.id.post_space);
@@ -66,20 +68,45 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Take input from searchBar, find matching posts, return as output in postSpace
         //TODO: if input empty, show error message
 
-        //TODO: set onclicklistener for mostRelevant, call method that sort posts by relevancy/vote count
-        //TODO: set onclicklistener for mostRecent, calls method that sorts posts by date posted
-
         //set onclicklistener for filterButton, takes user to filter activity
         //TODO: retrieve filter-by category from FilterActivity, filter posts through category
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent filterIntent = new Intent(MainActivity.this, FilterActivity.class);
+                filterIntent.putExtra("userID", userID);
                 startActivity(filterIntent);
             }
         });
 
+
+
         //TODO: call set text method of noOfPosts, edit to output no. of posts matching search
+        DatabaseReference questionsNode = databaseReference.child("Questions");
+
+        questionsNode.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<DataSnapshot> datasource = new ArrayList<>();
+                for (DataSnapshot ds: snapshot.getChildren()){
+                    if (filterCategory == null || filterCategory.equals(ds.child("Category").getValue()))
+                    datasource.add(ds);
+                }
+                noOfPosts.setText(String.valueOf(datasource.size()) + " Related Posts");
+                QuestionAdapter questionAdapter = new QuestionAdapter( MainActivity.this, datasource);
+                postSpace.setAdapter(questionAdapter);
+                postSpace.setLayoutManager( new LinearLayoutManager(MainActivity.this));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
 
         //TODO: for every relevant post found from search, add as child to LinearLayout postSpace with set TextView settings
         //TODO: set onclicklistener (?) for TextView that redirects user to view post activity
@@ -120,6 +147,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
             return true;
+        }
+
+        if (id == R.id.my_questions) {
+            //TODO: go to my questions page
         }
         return super.onOptionsItemSelected(item);
     }

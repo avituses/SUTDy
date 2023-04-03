@@ -120,9 +120,12 @@ public class CreatePostActivity extends AppCompatActivity {
                             if (snapshot.exists()) {
                                 postID = idGenerator.getNextNumber();
                             }
-                            databaseReference.child("Questions").child(userID).child(String.valueOf(postID)).child("Category").setValue(Category);
-                            databaseReference.child("Questions").child(userID).child(String.valueOf(postID)).child("Title").setValue(Title);
-                            databaseReference.child("Questions").child(userID).child(String.valueOf(postID)).child("Question").setValue(Question);
+                            databaseReference.child("Questions").child(String.valueOf(postID)).child("Category").setValue(Category);
+                            databaseReference.child("Questions").child(String.valueOf(postID)).child("Title").setValue(Title);
+                            databaseReference.child("Questions").child(String.valueOf(postID)).child("Question").setValue(Question);
+                            databaseReference.child("Questions").child(String.valueOf(postID)).child("User").setValue(userID);
+
+
                             Toast.makeText(CreatePostActivity.this, "Question Posted!", Toast.LENGTH_SHORT).show();
                             Intent CreatePost = new Intent(CreatePostActivity.this, MainActivity.class);
                             CreatePost.putExtra("userID", userID);

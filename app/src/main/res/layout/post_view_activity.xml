@@ -22,30 +22,28 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/postTitle"
+                android:id="@+id/post_title"
                 android:text="TITLE HERE"
+                android:textColor="@color/themedarker"
                 android:textSize="40dp"
-                android:layout_marginTop="15dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="USERNAME asks:"
-                android:id="@+id/usernameAsks"
-                android:textSize="20dp"
                 android:layout_marginTop="15dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="jkdlfghsdkjlghsdflkgsfdjfsf"
-                android:id="@+id/postContent"
-                android:textSize="25dp"
-                android:layout_marginTop="15dp"/>
+                android:id="@+id/post_content"
+                android:textSize="20dp"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/post_image"/>
         </LinearLayout>
     </ScrollView>
 
 
-    <!--comments view-->
+    <!--
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -84,7 +82,14 @@
 
         </LinearLayout>
     </ScrollView>
+-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/postView">
 
+    </androidx.recyclerview.widget.RecyclerView>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

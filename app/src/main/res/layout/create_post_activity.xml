@@ -40,7 +40,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/post_input_text"
+            android:id="@+id/post_input_title"
             android:text="Question title here"
             android:textColor="#808080"
             android:textSize="20dp"/>
@@ -61,7 +61,7 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/post_input_title"
+                android:id="@+id/post_input_text"
                 android:text="Enter your question here"
                 android:textColor="#808080"
                 android:textSize="20dp"/>

@@ -10,14 +10,10 @@
         android:title="Log Out"
         app:showAsAction="never" />
 
-    <item android:id="@+id/my_posts"
+    <item android:id="@+id/my_questions"
         android:orderInCategory="200"
-        android:title="My Posts"
+        android:title="My Questions"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/my_answers"
-        android:orderInCategory="300"
-        android:title="My Answers"
-        app:showAsAction="never"/>
 
 </menu>
