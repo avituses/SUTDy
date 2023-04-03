@@ -48,6 +48,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private String userID;
     Spinner postCategoryMenu;
     EditText postInputText;
+    EditText postInputTitle;
     Button uploadPostMediaButton;
     Button uploadPostButton;
 
@@ -78,6 +79,7 @@ public class CreatePostActivity extends AppCompatActivity {
         postCategoryMenu.setAdapter(mArrayAdapter);
 
         postInputText = findViewById(R.id.post_input_text);
+        postInputTitle = findViewById(R.id.post_input_title);
         uploadPostMediaButton = findViewById(R.id.upload_post_media_button);
         uploadPostButton = findViewById(R.id.upload_post_button);
 
@@ -101,6 +103,7 @@ public class CreatePostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String Question = postInputText.getText().toString();
+                String Title = postInputTitle.getText().toString();
                 String Category = postCategoryMenu.getSelectedItem().toString();
                 int postID = idGenerator.getNextNumber();
 
@@ -117,7 +120,9 @@ public class CreatePostActivity extends AppCompatActivity {
                             if (snapshot.exists()) {
                                 postID = idGenerator.getNextNumber();
                             }
-                            databaseReference.child("Questions").child(userID).child(Category).child(String.valueOf(postID)).setValue(Question);
+                            databaseReference.child("Questions").child(userID).child(String.valueOf(postID)).child("Category").setValue(Category);
+                            databaseReference.child("Questions").child(userID).child(String.valueOf(postID)).child("Title").setValue(Title);
+                            databaseReference.child("Questions").child(userID).child(String.valueOf(postID)).child("Question").setValue(Question);
                             Toast.makeText(CreatePostActivity.this, "Question Posted!", Toast.LENGTH_SHORT).show();
                             Intent CreatePost = new Intent(CreatePostActivity.this, MainActivity.class);
                             CreatePost.putExtra("userID", userID);

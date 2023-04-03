@@ -28,7 +28,7 @@ public class FilterActivity extends AppCompatActivity {
 
         //Set references to Widgets
         filterCategoryMenu = findViewById(R.id.filter_category_menu);
-        List<String> mList = Arrays.asList("Computation Structures", "Infosys", "Technological world", "Algorithms", "Data Driven World");
+        List<String> mList = Arrays.asList("Computation Structures", "Info Systems", "Technological World", "Algorithms", "Data Driven World");
 
         // Create an adapter as shown below
         ArrayAdapter<String> mArrayAdapter = new ArrayAdapter<String>(this, R.layout.spinner_list, mList);
@@ -46,6 +46,7 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FilterActivity.this, MainActivity.class);
+                intent.putExtra("filterCategory", filterCategoryMenu.getSelectedItem().toString());
                 startActivity(intent);
             }
         });

@@ -29,7 +29,21 @@
             android:spinnerMode="dropdown"
             android:layout_width="match_parent"
             android:layout_height="40dp" />
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/proxima"
+            android:text="@string/title_select"
+            android:textColor="@color/theme"
+            android:textSize="25dp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/post_input_text"
+            android:text="Question title here"
+            android:textColor="#808080"
+            android:textSize="20dp"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -39,6 +53,7 @@
             android:text="@string/question"
             android:textColor="@color/theme"
             android:textSize="25dp" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="295dp"
@@ -46,10 +61,10 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/post_input_text"
+                android:id="@+id/post_input_title"
                 android:text="Enter your question here"
                 android:textColor="#808080"
-                android:textSize="13dp"/>
+                android:textSize="20dp"/>
         </ScrollView>
         <Button
             android:layout_width="match_parent"
@@ -63,7 +78,7 @@
             android:textAllCaps="false"
             android:textSize="20dp"
             android:textColor="@color/white"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="25dp"/>
 
     </LinearLayout>
 

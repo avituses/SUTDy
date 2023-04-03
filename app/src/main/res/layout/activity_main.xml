@@ -83,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima"
-            android:text="(No.) Related Posts"
+            android:text="No Related Posts"
             android:textSize="25dp"
             android:textColor="@color/theme"
             android:layout_marginBottom="15dp"
@@ -92,6 +92,7 @@
     </LinearLayout>
 
     <!--Scrolling View of Posts-->
+    <!--
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -117,6 +118,13 @@
 
 
     </ScrollView>
+    -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/top"
+        android:id="@+id/post_space">
+    </androidx.recyclerview.widget.RecyclerView>
 
     <!--Post Button-->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

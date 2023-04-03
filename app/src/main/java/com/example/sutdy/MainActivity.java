@@ -1,6 +1,8 @@
 package com.example.sutdy;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,12 +26,13 @@ import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity {
     private String userID;
+    private String filterCategory;
     SearchView searchBar;
     Button mostRelevant;
     Button mostRecent;
     ImageButton filterButton;
     TextView noOfPosts;
-    LinearLayout postSpace;
+    RecyclerView postSpace;
     FloatingActionButton postButton;
 
     DatabaseReference mRootDatabaseRef;
@@ -46,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Login.class);
             startActivity(intent);
         }
-
+        //get filter category from filter activity
+        filterCategory = getIntent().getStringExtra("filterCategory");
 
         //Set references to Widgets
         searchBar = findViewById(R.id.search_bar);
@@ -120,3 +125,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
