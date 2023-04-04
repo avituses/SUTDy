@@ -69,7 +69,8 @@ public class PostViewActivity extends AppCompatActivity {
                 Toast.makeText(PostViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
-
+    //TODO: set up commments recyclerview (same concept as question recycler view)
+    //TODO: add comment function
     }
 
 }
