@@ -2,8 +2,11 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="120dp"
     android:layout_width="match_parent"
+    android:clickable="true"
+    android:id="@+id/question_card"
     android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp">
+    android:layout_marginRight="5dp"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_height="match_parent"
@@ -13,7 +16,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="16dp"
             android:id="@+id/question_category"
             android:text="QUESTION CATEGORY"
             android:textSize="15dp"
@@ -25,7 +28,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="26dp"
             android:id="@+id/question_title"
             android:text="INSERT QUESTION TITLE"
             android:textSize="25dp"

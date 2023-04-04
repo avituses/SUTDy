@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton postButton;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");;
+            .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
 
     @SuppressLint("MissingInflatedId")
@@ -50,10 +50,12 @@ public class MainActivity extends AppCompatActivity {
 
         //get intent data from Login.class.activity
         userID = getIntent().getStringExtra("userID");
+
         if (userID == null){
             Intent intent = new Intent(MainActivity.this, Login.class);
             startActivity(intent);
         }
+
         //get filter category from filter activity
         filterCategory = getIntent().getStringExtra("filterCategory");
 
@@ -90,11 +92,12 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<DataSnapshot> datasource = new ArrayList<>();
                 for (DataSnapshot ds: snapshot.getChildren()){
-                    if (filterCategory == null || filterCategory.equals(ds.child("Category").getValue()))
+                    if (filterCategory == null || filterCategory.equals(ds.child("Category").getValue())){
                     datasource.add(ds);
+                    }
                 }
-                noOfPosts.setText(String.valueOf(datasource.size()) + " Related Posts");
-                QuestionAdapter questionAdapter = new QuestionAdapter( MainActivity.this, datasource);
+                noOfPosts.setText(String.valueOf(datasource.size()) + " Related Questions");
+                QuestionAdapter questionAdapter = new QuestionAdapter( MainActivity.this, datasource,userID);
                 postSpace.setAdapter(questionAdapter);
                 postSpace.setLayoutManager( new LinearLayoutManager(MainActivity.this));
             }
@@ -154,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 
 }
 

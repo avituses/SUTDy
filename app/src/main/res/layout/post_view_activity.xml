@@ -19,6 +19,15 @@
             android:orientation="vertical"
             android:paddingLeft="5dp"
             android:paddingRight="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/post_category"
+                android:text="CATEGORY HERE"
+                android:textColor="@color/themelighter"
+                android:textSize="15dp"
+                android:layout_marginTop="15dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -26,7 +35,14 @@
                 android:text="TITLE HERE"
                 android:textColor="@color/themedarker"
                 android:textSize="40dp"
-                android:layout_marginTop="15dp"/>
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="user asks:"
+                android:id="@+id/post_user"
+                android:textSize="20dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -87,6 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
+        android:id="@+id/comment_space"
         android:layout_below="@id/postView">
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -95,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Add Comment"
-        android:id="@+id/toCommentButton"
+        android:id="@+id/to_comment_button"
         android:background="@drawable/buttons"
         app:backgroundTint="@color/theme"
         android:fontFamily="@font/proxima"

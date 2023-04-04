@@ -3,12 +3,15 @@ package com.example.sutdy;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ValueEventListener;
@@ -18,15 +21,17 @@ import java.util.List;
 import java.util.Objects;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.CharaViewHolder>{
-    Context context;
+    static Context context;
+    static String userID;
     LayoutInflater mInflater;
-    ArrayList<DataSnapshot> dataSource;
+    static ArrayList<DataSnapshot> dataSource;
 
     //TODO 11.3 Complete the constructor to initialize the DataSource instance variable
     /** Not so good design, because Adapter is tightly coupled to a specific concrete class */
-    QuestionAdapter(Context context, ArrayList<DataSnapshot> dataSource){
+    QuestionAdapter(Context context, ArrayList<DataSnapshot> dataSource, String userID){
         this.dataSource = dataSource;
         this.context = context;
+        this.userID = userID;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -58,7 +63,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.CharaV
 
     //TODO 11.4 complete the constructor to initialize the instance variables
     static class CharaViewHolder extends RecyclerView.ViewHolder{
-
+        CardView questionCard;
         TextView questionCategory;
         TextView questionTitle;
         TextView questionContent;
@@ -68,8 +73,18 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.CharaV
             questionCategory = view.findViewById(R.id.question_category);
             questionTitle = view.findViewById(R.id.question_title);
             questionContent = view.findViewById(R.id.question_content);
-        }
+            questionCard = view.findViewById(R.id.question_card);
+            questionCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent toPost = new Intent(context, PostViewActivity.class);
+                    toPost.putExtra("postID", dataSource.get(getAdapterPosition()).getKey());
+                    toPost.putExtra("userID", userID);
+                    context.startActivity(toPost);
+                }
+            });
 
+        }
     }
 
 

@@ -43,6 +43,12 @@
             android:parentActivityName=".MainActivity">
         </activity>
 
+        <activity
+            android:name=".PostViewActivity"
+            android:label="Question"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
     </application>
 
 </manifest>
