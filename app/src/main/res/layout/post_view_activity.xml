@@ -10,15 +10,15 @@
     <!--post view-->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/posts"
         android:id="@+id/postView">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -35,6 +35,7 @@
                 android:text="TITLE HERE"
                 android:textColor="@color/themedarker"
                 android:textSize="40dp"
+                android:layout_marginTop="5dp"
                 />
 
             <TextView
@@ -42,19 +43,23 @@
                 android:layout_height="match_parent"
                 android:text="user asks:"
                 android:id="@+id/post_user"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:layout_marginTop="5dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="jkdlfghsdkjlghsdflkgsfdjfsf"
                 android:id="@+id/post_content"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:layout_marginTop="5dp" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/post_image"/>
+                android:id="@+id/post_image"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="15dp"/>
         </LinearLayout>
     </ScrollView>
 
@@ -104,7 +109,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
         android:id="@+id/comment_space"
-        android:layout_below="@id/postView">
+        android:layout_below="@id/postView"
+        android:layout_above="@id/to_comment_button">
 
     </androidx.recyclerview.widget.RecyclerView>
     <Button

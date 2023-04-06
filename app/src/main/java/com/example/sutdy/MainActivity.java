@@ -154,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.my_questions) {
             //TODO: go to my questions page
+            Intent intent = new Intent(MainActivity.this, MyQuestionsActivity.class);
+            intent.putExtra("userID", userID);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

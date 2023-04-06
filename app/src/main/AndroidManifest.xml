@@ -48,6 +48,17 @@
             android:label="Question"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity
+            android:name=".AddCommentActivity"
+            android:label="Give An Answer!"
+            android:parentActivityName=".MainActivity">
+        </activity>
+
+        <activity
+            android:name=".MyQuestionsActivity"
+            android:label="Your Questions"
+            android:parentActivityName=".MainActivity">
+        </activity>
 
     </application>
 

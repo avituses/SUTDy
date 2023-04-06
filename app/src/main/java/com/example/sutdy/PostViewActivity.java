@@ -3,6 +3,7 @@ package com.example.sutdy;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -20,6 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Comment;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 //TODO: set up firebase
@@ -29,7 +33,8 @@ public class PostViewActivity extends AppCompatActivity {
     TextView postTitle;
     TextView postUser;
     TextView postContent;
-    //RecyclerView commentSpace;
+    ImageView postImage;
+    RecyclerView commentSpace;
     Button toCommentButton;
     private String postID;
     private String userID;
@@ -50,7 +55,7 @@ public class PostViewActivity extends AppCompatActivity {
         postTitle = findViewById(R.id.post_title);
         postUser = findViewById(R.id.post_user);
         postContent = findViewById(R.id.post_content);
-        //commentSpace = findViewById(R.id.comment_space);
+        commentSpace = findViewById(R.id.comment_space);
         toCommentButton = findViewById(R.id.to_comment_button);
 
         DatabaseReference postData = databaseReference.child("Questions").child(postID);
@@ -70,7 +75,40 @@ public class PostViewActivity extends AppCompatActivity {
             }
         });
     //TODO: set up commments recyclerview (same concept as question recycler view)
-    //TODO: add comment function
+        DatabaseReference questionCommentsNode = databaseReference.child("Questions").child(postID).child("Answers");
+        questionCommentsNode.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<DataSnapshot> datasource = new ArrayList<>();
+                for (DataSnapshot ds: snapshot.getChildren()){
+                    datasource.add(ds);}
+
+                if (datasource.size() == 0){
+                    return;
+                }
+
+                CommentAdapter commentAdapter = new CommentAdapter( PostViewActivity.this, datasource);
+                commentSpace.setAdapter(commentAdapter);
+                commentSpace.setLayoutManager( new LinearLayoutManager(PostViewActivity.this));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(PostViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //add comment function
+        toCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toPostComment = new Intent(PostViewActivity.this, AddCommentActivity.class);
+                toPostComment.putExtra("userID", userID);
+                toPostComment.putExtra("postID", postID);
+                startActivity(toPostComment);
+            }
+        });
     }
 
 }

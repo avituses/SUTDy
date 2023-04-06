@@ -21,18 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.CharaViewHolder>{
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CharaViewHolder>{
     static Context context;
-    static String userID;
     LayoutInflater mInflater;
     static ArrayList<DataSnapshot> dataSource;
 
     //TODO 11.3 Complete the constructor to initialize the DataSource instance variable
     /** Not so good design, because Adapter is tightly coupled to a specific concrete class */
-    QuestionAdapter(Context context, ArrayList<DataSnapshot> dataSource, String userID){
+    CommentAdapter(Context context, ArrayList<DataSnapshot> dataSource){
         this.dataSource = dataSource;
         this.context = context;
-        this.userID = userID;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -41,20 +39,19 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.CharaV
     @NonNull
     @Override
     public CharaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = mInflater.inflate(R.layout.post_card, viewGroup, false);
+        View itemView = mInflater.inflate(R.layout.comment_card, viewGroup, false);
         return new CharaViewHolder(itemView);
     }
 
     //TODO 11.6 the data at position i is extracted and placed on the i-th card
     @Override
     public void onBindViewHolder(@NonNull CharaViewHolder charaViewHolder, int i) {
-        String title = Objects.requireNonNull(dataSource.get(i).child("Title").getValue()).toString();
-        String question = Objects.requireNonNull(dataSource.get(i).child("Question").getValue()).toString();
-        String category = Objects.requireNonNull(dataSource.get(i).child("Category").getValue()).toString();
+        String user = Objects.requireNonNull(dataSource.get(i).child("User").getValue()).toString();
+        String content = Objects.requireNonNull(dataSource.get(i).child("Content").getValue()).toString();
 
-        charaViewHolder.questionCategory.setText(category);
-        charaViewHolder.questionTitle.setText(title);
-        charaViewHolder.questionContent.setText(question);}
+        charaViewHolder.commentUser.setText(user + " answered:");
+        charaViewHolder.commentContent.setText(content);
+    }
 
     //TODO 11.7 the total number of data points must be returned here
     @Override
@@ -64,27 +61,15 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.CharaV
 
     //TODO 11.4 complete the constructor to initialize the instance variables
     static class CharaViewHolder extends RecyclerView.ViewHolder{
-        CardView questionCard;
-        TextView questionCategory;
-        TextView questionTitle;
-        TextView questionContent;
+        TextView commentUser;
+        TextView commentContent;
+        ImageView commentImage;
 
         CharaViewHolder(View view){
             super(view);
-            questionCategory = view.findViewById(R.id.question_category);
-            questionTitle = view.findViewById(R.id.question_title);
-            questionContent = view.findViewById(R.id.question_content);
-            questionCard = view.findViewById(R.id.question_card);
-            questionCard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent toPost = new Intent(context, PostViewActivity.class);
-                    toPost.putExtra("postID", dataSource.get(getAdapterPosition()).getKey());
-                    toPost.putExtra("userID", userID);
-                    context.startActivity(toPost);
-                }
-            });
-
+            commentUser = view.findViewById(R.id.comment_user);
+            commentContent = view.findViewById(R.id.comment_content);
+            commentImage = view.findViewById(R.id.comment_image);
         }
     }
 
