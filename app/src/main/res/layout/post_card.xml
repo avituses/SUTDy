@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="120dp"
+    android:layout_height="140dp"
     android:layout_width="match_parent"
     android:clickable="true"
     android:id="@+id/question_card"
@@ -22,7 +22,7 @@
             android:textSize="15dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/proxima"
             android:textColor="@color/themelighter"/>
 
@@ -34,8 +34,10 @@
             android:textSize="25dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+
             android:textColor="@color/themedarker"
             android:fontFamily="@font/proxima"/>
+
 
         <TextView
             android:layout_width="match_parent"
@@ -45,6 +47,7 @@
             android:textSize="20dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/proxima"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
