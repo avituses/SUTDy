@@ -10,4 +10,5 @@
     <color name="themelighter">#FF9774</color>
     <color name="theme">#F27955</color>
     <color name="themedarker">#D35F3D</color>
+    <color name="themeneutral">#464646</color>
 </resources>

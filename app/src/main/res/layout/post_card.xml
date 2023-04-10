@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="140dp"
+    android:layout_height="130dp"
     android:layout_width="match_parent"
     android:clickable="true"
     android:id="@+id/question_card"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
     android:focusable="true">
 
     <LinearLayout
@@ -41,7 +42,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:id="@+id/question_content"
             android:text="askdfaskdljnlkasdjvnlakjsdvnalkvalfdaldfvnlkakldjfvnaklfjnvkaldfnv"
             android:textSize="20dp"
