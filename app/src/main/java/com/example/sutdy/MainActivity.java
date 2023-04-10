@@ -96,9 +96,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds: snapshot.getChildren()){
-                    if (  (filterCategory == null || filterCategory.equals(ds.child("Category").getValue()))  &&
-                            (searchInput == null || ds.child("Title").getValue().toString().toLowerCase(Locale.ROOT)
-                                    .contains(searchInput))  ){
+                    if (filterCategory == null || filterCategory.equals(ds.child("Category").getValue())){
                     datasource.add(ds);
                     }
                 }
