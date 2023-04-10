@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.InputDevice;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SearchEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -26,17 +28,20 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 //TODO: set up firebase
 
 public class MainActivity extends AppCompatActivity {
     private String userID;
     private String filterCategory;
-    SearchView searchBar;
-    ImageButton filterButton;
-    TextView noOfPosts;
-    RecyclerView postSpace;
-    FloatingActionButton postButton;
+    private String searchInput;
+    private SearchView searchBar;
+    private ImageButton filterButton;
+    ArrayList<DataSnapshot> datasource = new ArrayList<>();
+    private TextView noOfPosts;
+    private RecyclerView postSpace;
+    private FloatingActionButton postButton;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -90,9 +95,10 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<DataSnapshot> datasource = new ArrayList<>();
                 for (DataSnapshot ds: snapshot.getChildren()){
-                    if (filterCategory == null || filterCategory.equals(ds.child("Category").getValue())){
+                    if (  (filterCategory == null || filterCategory.equals(ds.child("Category").getValue()))  &&
+                            (searchInput == null || ds.child("Title").getValue().toString().toLowerCase(Locale.ROOT)
+                                    .contains(searchInput))  ){
                     datasource.add(ds);
                     }
                 }
@@ -107,7 +113,39 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                datasource.clear();
+                searchInput = s.toLowerCase();
+                questionsNode.addValueEventListener(new ValueEventListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            if ((filterCategory == null || filterCategory.equals(ds.child("Category").getValue())) &&
+                                    ds.child("Title").getValue().toString().toLowerCase(Locale.ROOT).contains(searchInput)) {
+                                datasource.add(ds);
+                            }
+                        }
+                        noOfPosts.setText(String.valueOf(datasource.size()) + " Related Questions");
+                        QuestionAdapter questionAdapter = new QuestionAdapter(MainActivity.this, datasource, userID);
+                        postSpace.setAdapter(questionAdapter);
+                        postSpace.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String s) {
+                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
 
 
 
