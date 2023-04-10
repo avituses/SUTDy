@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.InputDevice;
 import android.view.Menu;
@@ -36,15 +37,16 @@ public class MainActivity extends AppCompatActivity {
     private String userID;
     private String filterCategory;
     private String searchInput;
-    private SearchView searchBar;
-    private ImageButton filterButton;
+    SearchView searchBar;
+    ImageButton filterButton;
     ArrayList<DataSnapshot> datasource = new ArrayList<>();
-    private TextView noOfPosts;
-    private RecyclerView postSpace;
-    private FloatingActionButton postButton;
-
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+    TextView noOfPosts;
+    RecyclerView postSpace;
+    FloatingActionButton postButton;
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
+    private SharedPreferences mPreferences;
 
 
     @SuppressLint("MissingInflatedId")
@@ -54,7 +56,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //get intent data from Login.class.activity
-        userID = getIntent().getStringExtra("userID");
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        userID = mPreferences.getString("userID", null);
 
         if (userID == null){
             Intent intent = new Intent(MainActivity.this, Login.class);
@@ -81,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent filterIntent = new Intent(MainActivity.this, FilterActivity.class);
-                filterIntent.putExtra("userID", userID);
                 startActivity(filterIntent);
             }
         });
@@ -155,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent postIntent = new Intent(MainActivity.this, CreatePostActivity.class);
-                postIntent.putExtra("userID",userID);
                 startActivity(postIntent);
             }
         });
@@ -181,8 +182,8 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
         if (id == R.id.log_out) {
+            userID = null;
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
             return true;
@@ -191,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.my_questions) {
             //TODO: go to my questions page
             Intent intent = new Intent(MainActivity.this, MyQuestionsActivity.class);
-            intent.putExtra("userID", userID);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

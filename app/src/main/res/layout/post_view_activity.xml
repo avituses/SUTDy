@@ -45,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:text="user asks:"
                 android:id="@+id/post_user"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:layout_marginTop="5dp"/>
 
             <TextView

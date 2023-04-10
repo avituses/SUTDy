@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -24,8 +25,10 @@ public class Login extends AppCompatActivity {
     EditText inputPassword;
     Button loginButton;
     Button registerButton;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    private SharedPreferences mPreferences;
+    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,10 @@ public class Login extends AppCompatActivity {
                             if (snapshot.exists()) {
                                 String verification = snapshot.child("password").getValue().toString();
                                 if (password.equals(verification)) {
+                                    mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+                                    mPreferences.edit().putString("userID", username).apply();
                                     Intent toMain = new Intent(Login.this, MainActivity.class);
-                                    toMain.putExtra("userID", username);
+                                    //toMain.putExtra("userID", username);
                                     startActivity(toMain);
                                 } else
                                     Toast.makeText(Login.this, "Password incorrect.", Toast.LENGTH_SHORT).show();

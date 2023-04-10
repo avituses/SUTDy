@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -24,6 +25,8 @@ public class AddCommentActivity extends AppCompatActivity {
     private String userID;
     private String postID;
     private String commentID;
+    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
+    private SharedPreferences mPreferences;
     EditText commentInputText;
     Button uploadCommentPhotoButton;
     Button addCommentButton;
@@ -36,12 +39,11 @@ public class AddCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_comment_activity);
 
-        //Set references to Widgets
-        userID = getIntent().getStringExtra("userID");
+        //Set references
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        userID = mPreferences.getString("userID", null);
         postID = getIntent().getStringExtra("postID");
-
         commentID = String.valueOf(idGenerator.getNextNumber());
-
         commentInputText = findViewById(R.id.comment_input_text);
         uploadCommentPhotoButton = findViewById(R.id.upload_comment_photo_button);
         addCommentButton = findViewById(R.id.add_comment_button);
@@ -65,7 +67,6 @@ public class AddCommentActivity extends AppCompatActivity {
                             Toast.makeText(AddCommentActivity.this, "Answer Posted!", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(AddCommentActivity.this, PostViewActivity.class);
-                            intent.putExtra("userID", userID);
                             intent.putExtra("postID", postID);
                             startActivity(intent);
                         }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -38,6 +39,8 @@ public class PostViewActivity extends AppCompatActivity {
     Button toCommentButton;
     private String postID;
     private String userID;
+    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
+    private SharedPreferences mPreferences;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -48,7 +51,8 @@ public class PostViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_view_activity);
         postID = getIntent().getStringExtra("postID");
-        userID = getIntent().getStringExtra("userID");
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        userID = mPreferences.getString("userID", null);
 
         //Set references to Widgets
         postCategory = findViewById(R.id.post_category);
@@ -104,7 +108,6 @@ public class PostViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent toPostComment = new Intent(PostViewActivity.this, AddCommentActivity.class);
-                toPostComment.putExtra("userID", userID);
                 toPostComment.putExtra("postID", postID);
                 startActivity(toPostComment);
             }

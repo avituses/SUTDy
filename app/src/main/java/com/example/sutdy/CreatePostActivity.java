@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -43,15 +44,15 @@ import java.util.List;
 //TODO: set up firebase
 
 public class CreatePostActivity extends AppCompatActivity {
-
     private UniqueRNG idGenerator;
     private String userID;
+    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
+    private SharedPreferences mPreferences;
     Spinner postCategoryMenu;
     EditText postInputText;
     EditText postInputTitle;
     Button uploadPostMediaButton;
     Button uploadPostButton;
-
     DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
@@ -63,7 +64,8 @@ public class CreatePostActivity extends AppCompatActivity {
 
         idGenerator = new UniqueRNG();
 
-        userID = getIntent().getStringExtra("userID");
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        userID = mPreferences.getString("userID", null);
 
 
         //Set references to Widgets
@@ -128,7 +130,6 @@ public class CreatePostActivity extends AppCompatActivity {
 
                             Toast.makeText(CreatePostActivity.this, "Question Posted!", Toast.LENGTH_SHORT).show();
                             Intent CreatePost = new Intent(CreatePostActivity.this, MainActivity.class);
-                            CreatePost.putExtra("userID", userID);
                             startActivity(CreatePost);
                         }
                     }

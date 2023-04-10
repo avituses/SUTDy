@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -29,6 +30,9 @@ public class MyQuestionsActivity extends AppCompatActivity {
     private String userID;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
+    private SharedPreferences mPreferences;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -38,7 +42,8 @@ public class MyQuestionsActivity extends AppCompatActivity {
 
         //Set references to Widgets
         myQuestions = findViewById(R.id.my_questions);
-        userID = getIntent().getStringExtra("userID");
+        mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        userID = mPreferences.getString("userID", null);
 
         DatabaseReference questionsNode = databaseReference.child("Questions");
 
