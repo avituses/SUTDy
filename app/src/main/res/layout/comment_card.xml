@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/posts">
+        android:background="@drawable/comments">
 
         <TextView
             android:layout_width="match_parent"
