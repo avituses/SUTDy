@@ -13,9 +13,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Arrays;
 import java.util.List;
-
-//TODO: set up firebase
-
 public class FilterActivity extends AppCompatActivity {
     Spinner filterCategoryMenu;
     Button applyFilterButton;
@@ -28,7 +25,6 @@ public class FilterActivity extends AppCompatActivity {
 
         //Set references to Widgets
         filterCategoryMenu = findViewById(R.id.filter_category_menu);
-        String userID = getIntent().getStringExtra("userID");
         List<String> mList = Arrays.asList("Computation Structures", "Info Systems", "Technological World", "Algorithms", "Data Driven World");
 
         // Create an adapter as shown below
@@ -41,14 +37,12 @@ public class FilterActivity extends AppCompatActivity {
 
         applyFilterButton = findViewById(R.id.apply_filter_button);
 
-        //TODO: add categories to category menu
-        //TODO: apply filter button to filter posts according to category in MainActivity
         applyFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //send filter category to main
                 Intent intent = new Intent(FilterActivity.this, MainActivity.class);
                 intent.putExtra("filterCategory", filterCategoryMenu.getSelectedItem().toString());
-                intent.putExtra("userID", userID);
                 startActivity(intent);
             }
         });

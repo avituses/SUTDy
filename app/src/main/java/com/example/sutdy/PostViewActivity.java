@@ -27,8 +27,6 @@ import org.w3c.dom.Comment;
 import java.util.ArrayList;
 import java.util.Objects;
 
-//TODO: set up firebase
-
 public class PostViewActivity extends AppCompatActivity {
     TextView postCategory;
     TextView postTitle;
@@ -62,8 +60,8 @@ public class PostViewActivity extends AppCompatActivity {
         commentSpace = findViewById(R.id.comment_space);
         toCommentButton = findViewById(R.id.to_comment_button);
 
+        //set content according question data matching postID
         DatabaseReference postData = databaseReference.child("Questions").child(postID);
-
         postData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -78,20 +76,21 @@ public class PostViewActivity extends AppCompatActivity {
                 Toast.makeText(PostViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
-    //TODO: set up commments recyclerview (same concept as question recycler view)
+
+        //set up commments recyclerview
         DatabaseReference questionCommentsNode = databaseReference.child("Questions").child(postID).child("Answers");
         questionCommentsNode.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<DataSnapshot> datasource = new ArrayList<>();
+                //add all comments to recyclerview array
                 for (DataSnapshot ds: snapshot.getChildren()){
                     datasource.add(ds);}
-
+                //if empty, do nothing
                 if (datasource.size() == 0){
                     return;
                 }
-
                 CommentAdapter commentAdapter = new CommentAdapter( PostViewActivity.this, datasource);
                 commentSpace.setAdapter(commentAdapter);
                 commentSpace.setLayoutManager( new LinearLayoutManager(PostViewActivity.this));

@@ -22,9 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Objects;
-
-//TODO: set up firebase
-
 public class MyQuestionsActivity extends AppCompatActivity {
     RecyclerView myQuestions;
     private String userID;
@@ -45,6 +42,7 @@ public class MyQuestionsActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         userID = mPreferences.getString("userID", null);
 
+        //set up recycler view
         DatabaseReference questionsNode = databaseReference.child("Questions");
 
         questionsNode.addValueEventListener(new ValueEventListener() {
@@ -53,6 +51,7 @@ public class MyQuestionsActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<DataSnapshot> datasource = new ArrayList<>();
                 for (DataSnapshot ds: snapshot.getChildren()){
+                    //if question poster matches userID
                     if (Objects.requireNonNull(ds.child("User").getValue()).toString().equals(userID)){
                         datasource.add(ds);
                     }
@@ -67,7 +66,5 @@ public class MyQuestionsActivity extends AppCompatActivity {
                 Toast.makeText(MyQuestionsActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
 }

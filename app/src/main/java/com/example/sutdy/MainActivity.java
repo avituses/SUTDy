@@ -74,12 +74,7 @@ public class MainActivity extends AppCompatActivity {
         postSpace = findViewById(R.id.post_space);
         postButton = (FloatingActionButton) findViewById(R.id.post_button);
 
-
-        //TODO: Take input from searchBar, find matching posts, return as output in postSpace
-        //TODO: if input empty, show error message
-
-        //set onclicklistener for filterButton, takes user to filter activity
-        //TODO: retrieve filter-by category from FilterActivity, filter posts through category
+        //filter button takes user to filter activity
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,19 +84,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-        //TODO: call set text method of noOfPosts, edit to output no. of posts matching search
+        //set up recycler view
         DatabaseReference questionsNode = databaseReference.child("Questions");
-
         questionsNode.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //check if category matches filter
                 for (DataSnapshot ds: snapshot.getChildren()){
                     if (filterCategory == null || filterCategory.equals(ds.child("Category").getValue())){
                     datasource.add(ds);
                     }
                 }
+                //number of related questions
                 noOfPosts.setText(String.valueOf(datasource.size()) + " Related Questions");
                 QuestionAdapter questionAdapter = new QuestionAdapter( MainActivity.this, datasource,userID);
                 postSpace.setAdapter(questionAdapter);
@@ -147,11 +142,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        //TODO: for every relevant post found from search, add as child to LinearLayout postSpace with set TextView settings
-        //TODO: set onclicklistener (?) for TextView that redirects user to view post activity
-
         //set onclick listener for postButton, redirects user to create post activity
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,11 +160,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
-    //TODO: menu items redirects user to account information/log out?
-    //TODO: Log Out takes user to Log In page
-    //TODO: My Questions takes user to page showing the Questions they posted
-    //TODO: My Answers takes user to page showing Comments/Answers they posted
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -183,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.log_out) {
+            //reset userID, bring user to log in page
             userID = null;
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
@@ -190,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == R.id.my_questions) {
-            //TODO: go to my questions page
+            //go to my questions page
             Intent intent = new Intent(MainActivity.this, MyQuestionsActivity.class);
             startActivity(intent);
         }

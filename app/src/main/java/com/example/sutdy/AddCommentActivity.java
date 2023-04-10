@@ -17,9 +17,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-//TODO: set up firebase
-
 public class AddCommentActivity extends AppCompatActivity {
     private UniqueRNG idGenerator = new UniqueRNG();
     private String userID;
@@ -57,6 +54,7 @@ public class AddCommentActivity extends AppCompatActivity {
                 questionCommentNode.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        //check if id is taken
                         if (snapshot.hasChild(commentID)){
                             commentID = String.valueOf(idGenerator.getNextNumber());
                         }

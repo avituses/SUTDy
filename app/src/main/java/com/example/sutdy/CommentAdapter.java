@@ -26,8 +26,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CharaVie
     LayoutInflater mInflater;
     static ArrayList<DataSnapshot> dataSource;
 
-    //TODO 11.3 Complete the constructor to initialize the DataSource instance variable
-    /** Not so good design, because Adapter is tightly coupled to a specific concrete class */
+    //complete the constructor to initialize the DataSource instance variable
     CommentAdapter(Context context, ArrayList<DataSnapshot> dataSource){
         this.dataSource = dataSource;
         this.context = context;
@@ -35,7 +34,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CharaVie
     }
 
 
-    //TODO 11.5 the layout of each Card is inflated and used to instantiate CharaViewHolder (no coding)
+    //the layout of each Card is inflated and used to instantiate CharaViewHolder (no coding)
     @NonNull
     @Override
     public CharaViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -43,7 +42,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CharaVie
         return new CharaViewHolder(itemView);
     }
 
-    //TODO 11.6 the data at position i is extracted and placed on the i-th card
+    //the data at position i is extracted and placed on the i-th card
     @Override
     public void onBindViewHolder(@NonNull CharaViewHolder charaViewHolder, int i) {
         String user = Objects.requireNonNull(dataSource.get(i).child("User").getValue()).toString();
@@ -53,13 +52,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CharaVie
         charaViewHolder.commentContent.setText(content);
     }
 
-    //TODO 11.7 the total number of data points must be returned here
+    //the total number of data points must be returned here
     @Override
     public int getItemCount() {
         return dataSource.size();
     }
 
-    //TODO 11.4 complete the constructor to initialize the instance variables
+    //complete the constructor to initialize the instance variables
     static class CharaViewHolder extends RecyclerView.ViewHolder{
         TextView commentUser;
         TextView commentContent;

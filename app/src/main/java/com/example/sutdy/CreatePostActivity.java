@@ -41,8 +41,6 @@ import android.widget.TextView;
 import java.util.Arrays;
 import java.util.List;
 
-//TODO: set up firebase
-
 public class CreatePostActivity extends AppCompatActivity {
     private UniqueRNG idGenerator;
     private String userID;
@@ -85,22 +83,6 @@ public class CreatePostActivity extends AppCompatActivity {
         uploadPostMediaButton = findViewById(R.id.upload_post_media_button);
         uploadPostButton = findViewById(R.id.upload_post_button);
 
-        //TODO: set categories for postCategoryMenu
-        //TODO: get post from postInputText, send content to Firebase (?)
-
-        //TODO: set onclicklistener for uploadPostMediaButton, allow upload of media to post
-
-        //TODO: set onclicklistener for uploadPostButton
-
-        // uploadPostMediaButton.setOnClickListener(new View.OnClickListener() {
-            // @Override
-            // public void onClick(View view) {
-            //
-            //}
-        // })
-
-
-
         uploadPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,6 +123,5 @@ public class CreatePostActivity extends AppCompatActivity {
                 });
             }
         });
-        //TODO: uploadPostButton sends post content to Firebase
     }
 }
