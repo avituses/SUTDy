@@ -22,11 +22,10 @@ import com.google.firebase.database.ValueEventListener;
 //TODO: set up firebase
 
 public class Register extends AppCompatActivity {
-
-    EditText newUsername;
-    EditText newPassword;
-    Button registerNew;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+    private EditText newUsername;
+    private EditText newPassword;
+    private Button registerNew;
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                     .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     @SuppressLint("MissingInflatedId")

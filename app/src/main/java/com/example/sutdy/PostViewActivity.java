@@ -28,13 +28,13 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PostViewActivity extends AppCompatActivity {
-    TextView postCategory;
-    TextView postTitle;
-    TextView postUser;
-    TextView postContent;
-    ImageView postImage;
-    RecyclerView commentSpace;
-    Button toCommentButton;
+    private TextView postCategory;
+    private TextView postTitle;
+    private TextView postUser;
+    private TextView postContent;
+    private ImageView postImage;
+    private RecyclerView commentSpace;
+    private Button toCommentButton;
     private String postID;
     private String userID;
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";

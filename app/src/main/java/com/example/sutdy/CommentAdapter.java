@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CharaViewHolder>{
-    static Context context;
-    LayoutInflater mInflater;
-    static ArrayList<DataSnapshot> dataSource;
+    private static Context context;
+    private LayoutInflater mInflater;
+    private static ArrayList<DataSnapshot> dataSource;
 
     //complete the constructor to initialize the DataSource instance variable
     CommentAdapter(Context context, ArrayList<DataSnapshot> dataSource){

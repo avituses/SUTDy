@@ -46,12 +46,12 @@ public class CreatePostActivity extends AppCompatActivity {
     private String userID;
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     private SharedPreferences mPreferences;
-    Spinner postCategoryMenu;
-    EditText postInputText;
-    EditText postInputTitle;
-    Button uploadPostMediaButton;
-    Button uploadPostButton;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+    private Spinner postCategoryMenu;
+    private EditText postInputText;
+    private EditText postInputTitle;
+    private Button uploadPostMediaButton;
+    private Button uploadPostButton;
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     @SuppressLint("MissingInflatedId")

@@ -14,8 +14,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Arrays;
 import java.util.List;
 public class FilterActivity extends AppCompatActivity {
-    Spinner filterCategoryMenu;
-    Button applyFilterButton;
+    private Spinner filterCategoryMenu;
+    private Button applyFilterButton;
 
     @SuppressLint("MissingInflatedId")
     @Override

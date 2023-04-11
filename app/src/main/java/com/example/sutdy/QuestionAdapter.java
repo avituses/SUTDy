@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.CharaViewHolder>{
-    static Context context;
-    static String userID;
-    LayoutInflater mInflater;
-    static ArrayList<DataSnapshot> dataSource;
+    private static Context context;
+    private static String userID;
+    private LayoutInflater mInflater;
+    private static ArrayList<DataSnapshot> dataSource;
 
     //TODO 11.3 Complete the constructor to initialize the DataSource instance variable
     /** Not so good design, because Adapter is tightly coupled to a specific concrete class */

@@ -24,10 +24,10 @@ public class AddCommentActivity extends AppCompatActivity {
     private String commentID;
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     private SharedPreferences mPreferences;
-    EditText commentInputText;
-    Button uploadCommentPhotoButton;
-    Button addCommentButton;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+    private EditText commentInputText;
+    private Button uploadCommentPhotoButton;
+    private Button addCommentButton;
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     @SuppressLint("MissingInflatedId")

@@ -21,10 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 //TODO: set up firebase
 
 public class Login extends AppCompatActivity {
-    EditText inputUsername;
-    EditText inputPassword;
-    Button loginButton;
-    Button registerButton;
+    private EditText inputUsername;
+    private EditText inputPassword;
+    private Button loginButton;
+    private Button registerButton;
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
     private SharedPreferences mPreferences;

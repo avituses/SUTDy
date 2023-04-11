@@ -37,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
     private String userID;
     private String filterCategory;
     private String searchInput;
-    SearchView searchBar;
-    ImageButton filterButton;
-    ArrayList<DataSnapshot> datasource = new ArrayList<>();
-    TextView noOfPosts;
-    RecyclerView postSpace;
-    FloatingActionButton postButton;
+    private SearchView searchBar;
+    private ImageButton filterButton;
+    private ArrayList<DataSnapshot> datasource = new ArrayList<>();
+    private TextView noOfPosts;
+    private RecyclerView postSpace;
+    private FloatingActionButton postButton;
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";
