@@ -99,6 +99,9 @@ public class CreatePostActivity extends AppCompatActivity {
                         //check if anything is not filled in
                         if (Question.isEmpty()) {
                             Toast.makeText(CreatePostActivity.this, "Please fill in a question.", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (Title.isEmpty()) {
+                            Toast.makeText(CreatePostActivity.this, "Please fill in a title.", Toast.LENGTH_SHORT).show();
                         } else {
                             // check if postID already exists to prevent overwriting
                             if (snapshot.exists()) {
