@@ -92,7 +92,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 int postID = idGenerator.getNextNumber();
 
 
-                databaseReference.child("Questions").child(userID).child(Category).child(String.valueOf(postID)).addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.child("Questions").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int postID = idGenerator.getNextNumber();
@@ -108,6 +108,7 @@ public class CreatePostActivity extends AppCompatActivity {
                             databaseReference.child("Questions").child(String.valueOf(postID)).child("Title").setValue(Title);
                             databaseReference.child("Questions").child(String.valueOf(postID)).child("Question").setValue(Question);
                             databaseReference.child("Questions").child(String.valueOf(postID)).child("User").setValue(userID);
+                            databaseReference.child("Questions").child(String.valueOf(postID)).child("Rating").setValue(0);
 
 
                             Toast.makeText(CreatePostActivity.this, "Question Posted!", Toast.LENGTH_SHORT).show();
