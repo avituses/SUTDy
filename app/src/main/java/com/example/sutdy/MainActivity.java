@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });

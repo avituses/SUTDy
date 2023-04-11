@@ -34,7 +34,7 @@
             android:layout_height="45dp"
             android:inputType="text"
             android:iconifiedByDefault="false"
-            android:queryHint="Your question here..."/>
+            android:queryHint="Search..."/>
 
         <!-- Select Search output Buttons -->
 

@@ -97,8 +97,8 @@ public class CreatePostActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int postID = idGenerator.getNextNumber();
                         //check if anything is not filled in
-                        if (Question.isEmpty()) {
-                            Toast.makeText(CreatePostActivity.this, "Please fill in a question.", Toast.LENGTH_SHORT).show();
+                        if (Question.isEmpty() || Title.isEmpty()) {
+                            Toast.makeText(CreatePostActivity.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
                         } else {
                             // check if postID already exists to prevent overwriting
                             if (snapshot.exists()) {
