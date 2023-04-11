@@ -46,12 +46,12 @@ public class CreatePostActivity extends AppCompatActivity {
     private String userID;
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     private SharedPreferences mPreferences;
-    Spinner postCategoryMenu;
-    EditText postInputText;
-    EditText postInputTitle;
-    Button uploadPostMediaButton;
-    Button uploadPostButton;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+    private Spinner postCategoryMenu;
+    private EditText postInputText;
+    private EditText postInputTitle;
+    private Button uploadPostMediaButton;
+    private Button uploadPostButton;
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     @SuppressLint("MissingInflatedId")
@@ -97,11 +97,8 @@ public class CreatePostActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int postID = idGenerator.getNextNumber();
                         //check if anything is not filled in
-                        if (Question.isEmpty()) {
-                            Toast.makeText(CreatePostActivity.this, "Please fill in a question.", Toast.LENGTH_SHORT).show();
-                        }
-                        else if (Title.isEmpty()) {
-                            Toast.makeText(CreatePostActivity.this, "Please fill in a title.", Toast.LENGTH_SHORT).show();
+                        if (Question.isEmpty() || Title.isEmpty()) {
+                            Toast.makeText(CreatePostActivity.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
                         } else {
                             // check if postID already exists to prevent overwriting
                             if (snapshot.exists()) {

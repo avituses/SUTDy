@@ -23,9 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Objects;
 public class MyQuestionsActivity extends AppCompatActivity {
-    RecyclerView myQuestions;
+    private RecyclerView myQuestions;
     private String userID;
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     private SharedPreferences mPreferences;
