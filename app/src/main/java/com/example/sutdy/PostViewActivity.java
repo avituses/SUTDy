@@ -1,7 +1,5 @@
 package com.example.sutdy;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,26 +8,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.*;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Comment;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class PostViewActivity extends AppCompatActivity {
-    private FirebaseOperations firebase = new FirebaseOperations();
-    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
+    private final FirebaseOperations firebase = new FirebaseOperations();
     private SharedPreferences mPreferences;
     private TextView postCategory;
     private TextView postTitle;
@@ -49,6 +34,7 @@ public class PostViewActivity extends AppCompatActivity {
         setContentView(R.layout.post_view_activity);
 
         postID = getIntent().getStringExtra("postID");
+        String sharedPrefFile = "com.example.android.mainsharedprefs";
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         userID = mPreferences.getString("userID", null);
 
@@ -57,11 +43,18 @@ public class PostViewActivity extends AppCompatActivity {
         postTitle = findViewById(R.id.post_title);
         postUser = findViewById(R.id.post_user);
         postContent = findViewById(R.id.post_content);
+        postImage = findViewById(R.id.post_image);
         commentSpace = findViewById(R.id.comment_space);
         toCommentButton = findViewById(R.id.to_comment_button);
 
         //display post
-        firebase.displayPost(postID, postCategory, postTitle, postUser, postContent);
+        firebase.displayPost(postID,
+                            postCategory,
+                            postTitle,
+                            postUser,
+                            postContent,
+                            postImage,
+                            PostViewActivity.this);
 
         //set up comment recyclerview
         ArrayList<DataSnapshot> datasource = new ArrayList<>();

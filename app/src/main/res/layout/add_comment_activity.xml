@@ -23,17 +23,33 @@
             android:textColor="@color/theme"
             android:textSize="25dp" />
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="295dp"
-            android:background="@drawable/posts"
-            android:orientation="vertical">
-            <EditText
+            android:background="@drawable/posts">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:id="@+id/comment_input_text"/>
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:orientation="vertical">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Your answer here..."
+                    android:textColor="@color/black"
+                    android:background="@null"
+                    android:id="@+id/comment_input_text"/>
+                <ImageView
+                    android:id="@+id/posted_comment_image"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"/>
+            </LinearLayout>
+        </ScrollView>
 
         <Button
             android:layout_width="match_parent"

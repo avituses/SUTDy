@@ -3,7 +3,6 @@ package com.example.sutdy;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
 import java.util.Arrays;
 import java.util.List;
 

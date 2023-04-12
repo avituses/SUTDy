@@ -1,5 +1,6 @@
 package com.example.sutdy;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -9,29 +10,23 @@ import android.provider.OpenableColumns;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 public class FireBaseUtils {
     final static long FIVE_MEGABYTE = 1024 * 1024 * 5;
     public static Task<byte[]> downloadToImageView(final Context context, StorageReference storageRef, final ImageView imageView) {
-
         return storageRef.getBytes(FIVE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 // Data for image reference is returns, use this as needed
-                Toast.makeText(context, "Download successful", Toast.LENGTH_SHORT).show();
                 ByteArrayInputStream is = new ByteArrayInputStream(bytes);
                 Drawable drw = Drawable.createFromStream(is, "articleImage");
                 imageView.setImageDrawable(drw);
@@ -55,42 +50,19 @@ public class FireBaseUtils {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
-                Toast.makeText(context, "Image upload failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Image upload failed.", Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
                 // ...
-                Toast.makeText(context, "Image upload successful", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
-    public static Task<ListResult> listAll(final Context context, StorageReference storageRef) {
-        return storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-            @Override
-            public void onSuccess(ListResult listResult) {
-                /*
-                for (StorageReference prefix : listResult.getPrefixes()) {
-                    // All the prefixes under listRef.
-                    // You may call listAll() recursively on them.
-                }
-                */
-                for (StorageReference item : listResult.getItems()) {
-                    // All the items under listRef.
-
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Uh-oh, an error occurred!
+                Toast.makeText(context, "Image upload successful!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    @SuppressLint("Range")
     public static String getFileName(Context context, Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {

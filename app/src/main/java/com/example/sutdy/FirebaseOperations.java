@@ -2,6 +2,7 @@ package com.example.sutdy;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import java.util.Objects;
 public class FirebaseOperations {
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                   .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    private FirebaseStorageOperations firestore = new FirebaseStorageOperations();
 
     /*** Send data to firebase: posting a question, comments etc ***/
     public void createPost(Context context,
@@ -19,6 +21,7 @@ public class FirebaseOperations {
                            String Title,
                            String Question,
                            String userID,
+                           String fileName,
                            int postID) {
 
         DatabaseReference questionNode = databaseReference.child("Questions").child(String.valueOf(postID));
@@ -30,8 +33,10 @@ public class FirebaseOperations {
                 questionNode.child("Title").setValue(Title);
                 questionNode.child("Question").setValue(Question);
                 questionNode.child("User").setValue(userID);
-                //set default rating to 0
-                questionNode.child("Rating").setValue(0);
+                //set reference to image posted
+                if(fileName != null){
+                    questionNode.child("ImageURL").setValue(fileName);
+                }
                 Toast.makeText(context, "Question Posted!", Toast.LENGTH_SHORT).show();
             }
 
@@ -45,11 +50,15 @@ public class FirebaseOperations {
     public void createComment(String postID,
                               String commentID,
                               String userID,
-                              String content){
+                              String content,
+                              String fileName){
         DatabaseReference questionCommentNode = databaseReference.child("Questions").child(postID).child("Answers");
         questionCommentNode.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (fileName != null){
+                    questionCommentNode.child(commentID).child("ImageURL").setValue(fileName);
+                }
                 questionCommentNode.child(commentID).child("Content").setValue(content);
                 questionCommentNode.child(commentID).child("User").setValue(userID);
             }
@@ -67,13 +76,19 @@ public class FirebaseOperations {
                             TextView postCategory,
                             TextView postTitle,
                             TextView postUser,
-                            TextView postContent){
+                            TextView postContent,
+                            ImageView postImage,
+                            Context context){
         //set content according question data matching postID
         DatabaseReference postData = databaseReference.child("Questions").child(postID);
         postData.addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child("ImageURL").getValue()!=null) {
+                    String fileName = Objects.requireNonNull(snapshot.child("ImageURL").getValue()).toString();
+                    firestore.displayPhoto(postImage, context, fileName);
+                }
                 postCategory.setText(Objects.requireNonNull(snapshot.child("Category").getValue()).toString());
                 postTitle.setText(Objects.requireNonNull(snapshot.child("Title").getValue()).toString());
                 postUser.setText(Objects.requireNonNull(snapshot.child("User").getValue()) + " asks:");
