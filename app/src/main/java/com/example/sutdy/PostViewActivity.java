@@ -32,7 +32,7 @@ public class PostViewActivity extends AppCompatActivity {
     private TextView postTitle;
     private TextView postUser;
     private TextView postContent;
-    private ImageView postImage;
+    private ImageView imageView;
     private RecyclerView commentSpace;
     private Button toCommentButton;
     private String postID;
@@ -59,9 +59,20 @@ public class PostViewActivity extends AppCompatActivity {
         postContent = findViewById(R.id.post_content);
         commentSpace = findViewById(R.id.comment_space);
         toCommentButton = findViewById(R.id.to_comment_button);
+        imageView = findViewById(R.id.post_image);
 
         //set content according question data matching postID
         DatabaseReference postData = databaseReference.child("Questions").child(postID);
+
+        FirebaseStorageOperations firebaseStorageOperations = new FirebaseStorageOperations();
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firebaseStorageOperations.getRandomImageFromBackground(imageView,PostViewActivity.this);
+
+            }
+        });
         postData.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.*;
 import android.widget.ArrayAdapter;
+
+import java.io.IOException;
 import java.util.Arrays;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -51,8 +54,20 @@ public class CreatePostActivity extends AppCompatActivity {
     private EditText postInputTitle;
     private Button uploadPostMediaButton;
     private Button uploadPostButton;
+
+    ImageView imageView;
+    Bitmap bitmap;
+    private StorageReference mStorageRef;
+
+    private Uri mImageUri;
+
+
+    final static int REQUEST_IMAGE_GET = 2000;
+    final static String KEY_PATH = "Image";
+    final static String KEY_NAME = "Name";
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
             .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -82,7 +97,31 @@ public class CreatePostActivity extends AppCompatActivity {
         postInputTitle = findViewById(R.id.post_input_title);
         uploadPostMediaButton = findViewById(R.id.upload_post_media_button);
         uploadPostButton = findViewById(R.id.upload_post_button);
+        imageView = findViewById(R.id.imageViewSelected);
 
+        FirebaseStorageOperations firebaseStorageOperations = new FirebaseStorageOperations();
+
+        final ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                            Intent intent = result.getData();
+                            Uri photoUri = intent.getData();
+                            imageView.setImageURI(photoUri);
+                            try {
+                                bitmap = MediaStore.Images.Media.getBitmap(CreatePostActivity.this.getContentResolver(), photoUri);
+                                firebaseStorageOperations.uploadUriToStorage(CreatePostActivity.this,photoUri);
+
+                            } catch (IOException e) {
+                                e.printStackTrace(); //Write a toast if you want
+                            } //now go vvvvvvvvv(down)
+
+                        }
+                    }
+                }
+        );
         uploadPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,5 +163,22 @@ public class CreatePostActivity extends AppCompatActivity {
                 });
             }
         });
+
+        uploadPostMediaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //MediaStore.Images.Media.EXTERNAL_CONTENT_URI <-- location of the image gallery
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                launcher.launch(intent);
+
+            }
+        });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
+        if (requestCode == REQUEST_IMAGE_GET && resultCode == RESULT_OK) {
+            mImageUri = data.getData();
+        }
     }
 }
