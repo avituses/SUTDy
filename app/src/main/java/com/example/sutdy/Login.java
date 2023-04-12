@@ -21,14 +21,14 @@ import com.google.firebase.database.ValueEventListener;
 //TODO: set up firebase
 
 public class Login extends AppCompatActivity {
+    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+                  .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    private SharedPreferences mPreferences;
+    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     private EditText inputUsername;
     private EditText inputPassword;
     private Button loginButton;
     private Button registerButton;
-    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    private SharedPreferences mPreferences;
-    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,6 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Toast.makeText(Login.this, "Error", Toast.LENGTH_SHORT).show();
-
                         }
                     });
                 }

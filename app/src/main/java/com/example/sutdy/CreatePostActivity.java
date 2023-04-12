@@ -41,19 +41,18 @@ import android.widget.TextView;
 import java.util.Arrays;
 import java.util.List;
 
-public class CreatePostActivity extends AppCompatActivity {
-    private UniqueRNG idGenerator;
-    private String userID;
+public class CreatePostActivity extends AppCompatActivity{
+    private FirebaseOperations firebase = new FirebaseOperations();
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     private SharedPreferences mPreferences;
+    private UniqueRNG idGenerator;
+    private String userID;
     private Spinner postCategoryMenu;
     private EditText postInputText;
     private EditText postInputTitle;
     private Button uploadPostMediaButton;
     private Button uploadPostButton;
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
-
+    private FilterAdapter filterAdapter = new FilterAdapter();
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,20 +67,12 @@ public class CreatePostActivity extends AppCompatActivity {
 
         //Set references to Widgets
         postCategoryMenu = findViewById(R.id.post_category_menu);
-        // Create a list to display in the Spinner
-        List<String> mList = Arrays.asList("Computation Structures", "Info Systems", "Technological World", "Algorithms", "Data Driven World");
-
-        // Create an adapter as shown below
-        ArrayAdapter<String> mArrayAdapter = new ArrayAdapter<String>(CreatePostActivity.this, R.layout.spinner_list, mList);
-        mArrayAdapter.setDropDownViewResource(R.layout.spinner_list);
-
-        // Set the adapter to the Spinner
-        postCategoryMenu.setAdapter(mArrayAdapter);
-
         postInputText = findViewById(R.id.post_input_text);
         postInputTitle = findViewById(R.id.post_input_title);
         uploadPostMediaButton = findViewById(R.id.upload_post_media_button);
         uploadPostButton = findViewById(R.id.upload_post_button);
+
+        filterAdapter.setFilterCats(CreatePostActivity.this, postCategoryMenu);
 
         uploadPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,37 +82,14 @@ public class CreatePostActivity extends AppCompatActivity {
                 String Category = postCategoryMenu.getSelectedItem().toString();
                 int postID = idGenerator.getNextNumber();
 
+                if (Question.isEmpty() || Title.isEmpty()) {
+                    Toast.makeText(CreatePostActivity.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
+                } else {
+                    firebase.createPost(CreatePostActivity.this, Category, Title, Question, userID, postID);
 
-                databaseReference.child("Questions").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        int postID = idGenerator.getNextNumber();
-                        //check if anything is not filled in
-                        if (Question.isEmpty() || Title.isEmpty()) {
-                            Toast.makeText(CreatePostActivity.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // check if postID already exists to prevent overwriting
-                            if (snapshot.exists()) {
-                                postID = idGenerator.getNextNumber();
-                            }
-                            databaseReference.child("Questions").child(String.valueOf(postID)).child("Category").setValue(Category);
-                            databaseReference.child("Questions").child(String.valueOf(postID)).child("Title").setValue(Title);
-                            databaseReference.child("Questions").child(String.valueOf(postID)).child("Question").setValue(Question);
-                            databaseReference.child("Questions").child(String.valueOf(postID)).child("User").setValue(userID);
-                            databaseReference.child("Questions").child(String.valueOf(postID)).child("Rating").setValue(0);
-
-
-                            Toast.makeText(CreatePostActivity.this, "Question Posted!", Toast.LENGTH_SHORT).show();
-                            Intent CreatePost = new Intent(CreatePostActivity.this, MainActivity.class);
-                            startActivity(CreatePost);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(CreatePostActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    Intent CreatePost = new Intent(CreatePostActivity.this, MainActivity.class);
+                    startActivity(CreatePost);
+                }
             }
         });
     }

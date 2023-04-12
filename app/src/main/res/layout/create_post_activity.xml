@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/post_input_title"
-            android:text="Question title here"
+            android:hint="Question title here"
             android:textColor="#808080"
             android:textSize="20dp"/>
 
@@ -62,9 +62,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/post_input_text"
-                android:text="Enter your question here"
+                android:hint="Enter your question here"
                 android:textColor="#808080"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:background="@null"
+                android:layout_margin="5dp"/>
         </ScrollView>
         <Button
             android:layout_width="match_parent"

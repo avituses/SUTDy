@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class PostViewActivity extends AppCompatActivity {
+    private FirebaseOperations firebase = new FirebaseOperations();
+    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
+    private SharedPreferences mPreferences;
     private TextView postCategory;
     private TextView postTitle;
     private TextView postUser;
@@ -37,17 +40,14 @@ public class PostViewActivity extends AppCompatActivity {
     private Button toCommentButton;
     private String postID;
     private String userID;
-    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
-    private SharedPreferences mPreferences;
 
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.post_view_activity);
+
         postID = getIntent().getStringExtra("postID");
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         userID = mPreferences.getString("userID", null);
@@ -60,47 +60,16 @@ public class PostViewActivity extends AppCompatActivity {
         commentSpace = findViewById(R.id.comment_space);
         toCommentButton = findViewById(R.id.to_comment_button);
 
-        //set content according question data matching postID
-        DatabaseReference postData = databaseReference.child("Questions").child(postID);
-        postData.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postCategory.setText(Objects.requireNonNull(snapshot.child("Category").getValue()).toString());
-                postTitle.setText(Objects.requireNonNull(snapshot.child("Title").getValue()).toString());
-                postUser.setText(Objects.requireNonNull(snapshot.child("User").getValue()).toString() + " asks:");
-                postContent.setText(Objects.requireNonNull(snapshot.child("Question").getValue()).toString());
-            }
+        //display post
+        firebase.displayPost(postID, postCategory, postTitle, postUser, postContent);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(PostViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //set up comment recyclerview
+        ArrayList<DataSnapshot> datasource = new ArrayList<>();
+        CommentAdapter commentAdapter = new CommentAdapter( PostViewActivity.this, datasource);
+        commentSpace.setAdapter(commentAdapter);
+        commentSpace.setLayoutManager( new LinearLayoutManager(PostViewActivity.this));
 
-        //set up commments recyclerview
-        DatabaseReference questionCommentsNode = databaseReference.child("Questions").child(postID).child("Answers");
-        questionCommentsNode.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<DataSnapshot> datasource = new ArrayList<>();
-                //add all comments to recyclerview array
-                for (DataSnapshot ds: snapshot.getChildren()){
-                    datasource.add(ds);}
-                //if empty, do nothing
-                if (datasource.size() == 0){
-                    return;
-                }
-                CommentAdapter commentAdapter = new CommentAdapter( PostViewActivity.this, datasource);
-                commentSpace.setAdapter(commentAdapter);
-                commentSpace.setLayoutManager( new LinearLayoutManager(PostViewActivity.this));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(PostViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+        firebase.updateCommentDatasource(postID, datasource, commentAdapter);
 
         //add comment function
         toCommentButton.setOnClickListener(new View.OnClickListener() {

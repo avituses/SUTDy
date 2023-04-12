@@ -23,13 +23,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Objects;
 public class MyQuestionsActivity extends AppCompatActivity {
-    private RecyclerView myQuestions;
-    private String userID;
-    private DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
+    private FirebaseOperations firebase = new FirebaseOperations();
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     private SharedPreferences mPreferences;
-
+    private RecyclerView myQuestions;
+    private String userID;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -42,29 +40,12 @@ public class MyQuestionsActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         userID = mPreferences.getString("userID", null);
 
+        ArrayList<DataSnapshot> datasource = new ArrayList<>();
         //set up recycler view
-        DatabaseReference questionsNode = databaseReference.child("Questions");
-
-        questionsNode.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<DataSnapshot> datasource = new ArrayList<>();
-                for (DataSnapshot ds: snapshot.getChildren()){
-                    //if question poster matches userID
-                    if (Objects.requireNonNull(ds.child("User").getValue()).toString().equals(userID)){
-                        datasource.add(ds);
-                    }
-                }
-                QuestionAdapter questionAdapter = new QuestionAdapter( MyQuestionsActivity.this, datasource, userID);
-                myQuestions.setAdapter(questionAdapter);
-                myQuestions.setLayoutManager( new LinearLayoutManager(MyQuestionsActivity.this));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MyQuestionsActivity.this, "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+        QuestionAdapter questionAdapter = new QuestionAdapter(MyQuestionsActivity.this, datasource, userID);
+        firebase.updateMyQuestionsDatasource(datasource, userID, questionAdapter);
+        myQuestions.setLayoutManager(new LinearLayoutManager(MyQuestionsActivity.this));
+        myQuestions.setAdapter(questionAdapter);
     }
+
 }

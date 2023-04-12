@@ -34,20 +34,18 @@ import java.util.Locale;
 //TODO: set up firebase
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseOperations firebase = new FirebaseOperations();
+    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
+    private SharedPreferences mPreferences;
     private String userID;
     private String filterCategory;
     private String searchInput;
     private SearchView searchBar;
     private ImageButton filterButton;
-    private ArrayList<DataSnapshot> datasource = new ArrayList<>();
+    private ImageButton refreshButton;
     private TextView noOfPosts;
     private RecyclerView postSpace;
     private FloatingActionButton postButton;
-    private final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    private final String sharedPrefFile = "com.example.android.mainsharedprefs";
-    private SharedPreferences mPreferences;
-
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -70,10 +68,18 @@ public class MainActivity extends AppCompatActivity {
         //Set references to Widgets
         searchBar = findViewById(R.id.search_bar);
         filterButton = findViewById(R.id.filter_button);
+        refreshButton = findViewById(R.id.refresh_button);
         noOfPosts = findViewById(R.id.no_of_posts);
         postSpace = findViewById(R.id.post_space);
-        postButton = (FloatingActionButton) findViewById(R.id.post_button);
+        postButton = findViewById(R.id.post_button);
 
+        //set up recyclerview
+        ArrayList<DataSnapshot> datasource = new ArrayList<>();
+
+        QuestionAdapter questionAdapter = new QuestionAdapter( MainActivity.this, datasource, userID);
+        postSpace.setLayoutManager( new LinearLayoutManager(MainActivity.this));
+        postSpace.setAdapter(questionAdapter);
+        firebase.updateDatasource(filterCategory, searchInput, datasource, noOfPosts, questionAdapter);
         //filter button takes user to filter activity
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,55 +89,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        //set up recycler view
-        DatabaseReference questionsNode = databaseReference.child("Questions");
-        questionsNode.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
+        refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //check if category matches filter
-                for (DataSnapshot ds: snapshot.getChildren()){
-                    if (filterCategory == null || filterCategory.equals(ds.child("Category").getValue())){
-                    datasource.add(ds);
-                    }
-                }
-                //number of related questions
-                noOfPosts.setText(String.valueOf(datasource.size()) + " Related Questions");
-                QuestionAdapter questionAdapter = new QuestionAdapter( MainActivity.this, datasource,userID);
-                postSpace.setAdapter(questionAdapter);
-                postSpace.setLayoutManager( new LinearLayoutManager(MainActivity.this));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onClick(View view) {
+                searchInput = null;
+                filterCategory = null;
+                firebase.updateDatasource(filterCategory, searchInput, datasource, noOfPosts, questionAdapter);
             }
         });
+
+        //searchbar
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                datasource.clear();
                 searchInput = s.toLowerCase();
-                questionsNode.addValueEventListener(new ValueEventListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            if ((filterCategory == null || filterCategory.equals(ds.child("Category").getValue())) &&
-                                    ds.child("Title").getValue().toString().toLowerCase(Locale.ROOT).contains(searchInput)) {
-                                datasource.add(ds);
-                            }
-                        }
-                        noOfPosts.setText(String.valueOf(datasource.size()) + " Related Questions");
-                        QuestionAdapter questionAdapter = new QuestionAdapter(MainActivity.this, datasource, userID);
-                        postSpace.setAdapter(questionAdapter);
-                        postSpace.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+                firebase.updateDatasource(filterCategory, searchInput, datasource, noOfPosts, questionAdapter);
                 return false;
             }
 
@@ -181,8 +153,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }
 
