@@ -56,7 +56,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="295dp"
+            android:layout_height="185dp"
             android:background="@drawable/posts">
             <EditText
                 android:layout_width="match_parent"
@@ -68,6 +68,10 @@
                 android:background="@null"
                 android:layout_margin="5dp"/>
         </ScrollView>
+        <ImageView
+            android:id="@+id/imageViewSelected"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp" />
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
