@@ -58,11 +58,10 @@ public class PostViewActivity extends AppCompatActivity {
 
         //set up comment recyclerview
         ArrayList<DataSnapshot> datasource = new ArrayList<>();
-        CommentAdapter commentAdapter = new CommentAdapter( PostViewActivity.this, datasource);
+        CommentAdapter commentAdapter = new CommentAdapter( PostViewActivity.this, datasource, postID, userID);
+        firebase.updateCommentDatasource(postID, datasource, commentAdapter);
         commentSpace.setAdapter(commentAdapter);
         commentSpace.setLayoutManager( new LinearLayoutManager(PostViewActivity.this));
-
-        firebase.updateCommentDatasource(postID, datasource, commentAdapter);
 
         //add comment function
         toCommentButton.setOnClickListener(new View.OnClickListener() {

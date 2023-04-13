@@ -8,12 +8,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.google.firebase.database.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 
 public class FirebaseOperations {
     private final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
                   .getReferenceFromUrl("https://sutdy-1-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    private FirebaseStorageOperations firestore = new FirebaseStorageOperations();
+    private final FirebaseStorageOperations firestore = new FirebaseStorageOperations();
 
     /*** Send data to firebase: posting a question, comments etc ***/
     public void createPost(Context context,
@@ -61,8 +62,7 @@ public class FirebaseOperations {
                 }
                 questionCommentNode.child(commentID).child("Content").setValue(content);
                 questionCommentNode.child(commentID).child("User").setValue(userID);
-                questionCommentNode.child(commentID).child("Ratings").setValue("0");
-                questionCommentNode.child(commentID).child("Ratings").child(userID).child("Ratingbool").setValue("0");
+                questionCommentNode.child(commentID).child("Ratings").child("Rate Value").setValue("0");
             }
 
             @Override
@@ -74,19 +74,28 @@ public class FirebaseOperations {
     public void ratingVote(String postID,
                            String commentID,
                            String userID,
-                           Boolean updown){
-        DatabaseReference questionCommentRateNode = databaseReference.child("Questions").child(postID).child("Answers").child(commentID);
+                           Boolean upvote,
+                           ArrayList<DataSnapshot> datasource){
+
+        DatabaseReference questionCommentRateNode = databaseReference.child("Questions")
+                                                    .child(postID).child("Answers")
+                                                    .child(commentID).child("Ratings");
         questionCommentRateNode.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (updown ==true) {
-                    questionCommentRateNode.child("Ratings").child(userID).child("Ratingbool").setValue("-1");
-                    questionCommentRateNode.child("Ratings").setValue(Integer.parseInt(Objects.requireNonNull(snapshot.child("Ratings").getValue()).toString()) + Integer.parseInt(Objects.requireNonNull(snapshot.child("Ratings").child(userID).child("Ratingbool").getValue()).toString()));
+                datasource.clear();
+                int currentRating = Integer.parseInt(String.valueOf(snapshot.child("Rate Value").getValue()));
+                //check if user has already liked the post
+                //if (!snapshot.hasChild(userID)) {
+                if (upvote){
+                    currentRating++;
                 }
-                else if (updown==false) {
-                    questionCommentRateNode.child("Ratings").child(userID).child("Ratingbool").setValue("1");
-                    questionCommentRateNode.child("Ratings").setValue(Integer.parseInt(Objects.requireNonNull(snapshot.child("Ratings").getValue()).toString()) + Integer.parseInt(Objects.requireNonNull(snapshot.child("Ratings").child(userID).child("Ratingbool").getValue()).toString()));
+                else{
+                    currentRating--;
                 }
+                questionCommentRateNode.child("Rate Value").setValue(currentRating);
+                //questionCommentRateNode.child(userID).setValue("Rated");
+
             }
 
             @Override
@@ -94,6 +103,7 @@ public class FirebaseOperations {
             }
         });
     }
+
     /*** Retrieve data from firebase: Question data, items for recycler views ***/
 
     //retrieving question data for postview
@@ -165,6 +175,7 @@ public class FirebaseOperations {
                         }
                     }
                 }
+                Collections.reverse(datasource);
                 //update question adapter
                 questionAdapter.notifyDataSetChanged();
                 //set no. of posts
@@ -190,6 +201,7 @@ public class FirebaseOperations {
                         datasource.add(ds);
                     }
                 }
+                Collections.reverse(datasource);
                 questionAdapter.notifyDataSetChanged();
             }
 
@@ -203,6 +215,7 @@ public class FirebaseOperations {
     public void updateCommentDatasource(String postID,
                                         ArrayList<DataSnapshot> datasource,
                                         CommentAdapter commentAdapter){
+        datasource.clear();
         //set up commments recyclerview
         DatabaseReference questionCommentsNode = databaseReference.child("Questions").child(postID).child("Answers");
         questionCommentsNode.addValueEventListener(new ValueEventListener() {
@@ -213,6 +226,7 @@ public class FirebaseOperations {
                 for (DataSnapshot ds: snapshot.getChildren()){
                     datasource.add(ds);
                 }
+                Collections.reverse(datasource);
                 commentAdapter.notifyDataSetChanged();
             }
 
