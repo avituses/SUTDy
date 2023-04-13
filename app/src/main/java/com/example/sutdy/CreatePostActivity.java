@@ -42,7 +42,7 @@ public class CreatePostActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_post_activity);
 
-        idGenerator = new UniqueRNG();
+        idGenerator = new ClockFunc();
 
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         userID = mPreferences.getString("userID", null);
