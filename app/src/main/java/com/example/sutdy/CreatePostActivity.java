@@ -65,7 +65,7 @@ public class CreatePostActivity extends AppCompatActivity{
                 String Question = postInputText.getText().toString();
                 String Title = postInputTitle.getText().toString();
                 String Category = postCategoryMenu.getSelectedItem().toString();
-                int postID = idGenerator.getCurrentDateTime();
+                String postID = idGenerator.getCurrentDateTime();
 
                 if (Question.isEmpty() || Title.isEmpty()) {
                     Toast.makeText(CreatePostActivity.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();

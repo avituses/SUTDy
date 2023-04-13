@@ -22,7 +22,7 @@ public class FirebaseOperations {
                            String Question,
                            String userID,
                            String fileName,
-                           int postID) {
+                           String postID) {
 
         DatabaseReference questionNode = databaseReference.child("Questions").child(String.valueOf(postID));
         questionNode.addValueEventListener(new ValueEventListener() {
@@ -61,6 +61,8 @@ public class FirebaseOperations {
                 }
                 questionCommentNode.child(commentID).child("Content").setValue(content);
                 questionCommentNode.child(commentID).child("User").setValue(userID);
+                questionCommentNode.child(commentID).child("Ratings").setValue("0");
+                questionCommentNode.child(commentID).child("Ratings").child(userID).child("Ratingbool").setValue("0");
             }
 
             @Override
@@ -69,6 +71,29 @@ public class FirebaseOperations {
         });
     }
 
+    public void ratingVote(String postID,
+                           String commentID,
+                           String userID,
+                           Boolean updown){
+        DatabaseReference questionCommentRateNode = databaseReference.child("Questions").child(postID).child("Answers").child(commentID);
+        questionCommentRateNode.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (updown ==true) {
+                    questionCommentRateNode.child("Ratings").child(userID).child("Ratingbool").setValue("-1");
+                    questionCommentRateNode.child("Ratings").setValue(Integer.parseInt(Objects.requireNonNull(snapshot.child("Ratings").getValue()).toString()) + Integer.parseInt(Objects.requireNonNull(snapshot.child("Ratings").child(userID).child("Ratingbool").getValue()).toString()));
+                }
+                else if (updown==false) {
+                    questionCommentRateNode.child("Ratings").child(userID).child("Ratingbool").setValue("1");
+                    questionCommentRateNode.child("Ratings").setValue(Integer.parseInt(Objects.requireNonNull(snapshot.child("Ratings").getValue()).toString()) + Integer.parseInt(Objects.requireNonNull(snapshot.child("Ratings").child(userID).child("Ratingbool").getValue()).toString()));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+    }
     /*** Retrieve data from firebase: Question data, items for recycler views ***/
 
     //retrieving question data for postview
