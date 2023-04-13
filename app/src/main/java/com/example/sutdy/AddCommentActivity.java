@@ -22,7 +22,7 @@ public class AddCommentActivity extends AppCompatActivity {
     private final FirebaseStorageOperations firebaseStorageOperations = new FirebaseStorageOperations();
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     private SharedPreferences mPreferences;
-    private UniqueRNG idGenerator = new UniqueRNG();
+    private ClockFunc idGenerator = new ClockFunc();
     private String userID;
     private String postID;
     private String commentID;
@@ -44,7 +44,7 @@ public class AddCommentActivity extends AppCompatActivity {
         mPreferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
         userID = mPreferences.getString("userID", null);
         postID = getIntent().getStringExtra("postID");
-        commentID = String.valueOf(idGenerator.getNextNumber());
+        commentID = String.valueOf(idGenerator.getCurrentDateTime());
         commentInputText = findViewById(R.id.comment_input_text);
         uploadCommentPhotoButton = findViewById(R.id.upload_comment_photo_button);
         addCommentButton = findViewById(R.id.add_comment_button);

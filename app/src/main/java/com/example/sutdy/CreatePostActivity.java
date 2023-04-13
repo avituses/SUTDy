@@ -24,7 +24,7 @@ public class CreatePostActivity extends AppCompatActivity{
     private FirebaseStorageOperations firebaseStorageOperations = new FirebaseStorageOperations();
     private final String sharedPrefFile = "com.example.android.mainsharedprefs";
     private SharedPreferences mPreferences;
-    private UniqueRNG idGenerator;
+    private ClockFunc idGenerator;
     private String userID;
     private String fileName;
     private Spinner postCategoryMenu;
@@ -65,7 +65,7 @@ public class CreatePostActivity extends AppCompatActivity{
                 String Question = postInputText.getText().toString();
                 String Title = postInputTitle.getText().toString();
                 String Category = postCategoryMenu.getSelectedItem().toString();
-                int postID = idGenerator.getNextNumber();
+                int postID = idGenerator.getCurrentDateTime();
 
                 if (Question.isEmpty() || Title.isEmpty()) {
                     Toast.makeText(CreatePostActivity.this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
